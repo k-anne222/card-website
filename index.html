@@ -14,13 +14,21 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
         <script src="static/script.js" defer></script> 
     </header>
-    <body style="background-color: #5D8C5A;">
+    <body>
         <div class="main-content">
             <img src="images\black silhoueete.png" alt="Main Logo"/>
             <a href = "select-player.html">Click to Play</a>
         </div>
-        <button class="setting-button">
+        <button class="setting-button" onclick="openSetting()">
             <img src="images\settings black and white.png" alt="settingslogo">
         </button>
+
+        <div class="setting-window" id="setting-window">
+            <h2>Settings</h2>
+            <label for="bg-sound">Volume: </label>
+            <input type="range" id="bg-sound" name="bg-sound" min="0" max="100">
+            <br><br>
+            <button onclick="closeSetting()">Close</button>
+        </div>
     </body>
 </html>
