@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <header>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>cardgame project</title>
+    
+        <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> -->
+        <link rel="stylesheet" href="static/style.css">
+    
+        <!-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script> -->
+        
+        <link rel="stylesheet" href="static\friendchoice.css">
+
+        <script src="static\friendchoice.js" defer></script> 
+    </header>
+    <body>
+        <button class="setting-button" onclick="openSetting()">
+            <img src="images\settings black and white.png" alt="settingslogo">
+        </button>
+
+        <div class="setting-window" id="setting-window">
+            <h2>Settings</h2>
+            <label for="bg-sound">Volume: </label>
+            <input type="range" id="bg-sound" name="bg-sound" min="0" max="100">
+            <br><br>
+            <button onclick="closeSetting()">Close</button>
+        </div>
+
+        <div class="table"></div>
+
+        <div class="opscoreCircle"></div>
+        <!-- i need to add numbers inside the circles but i couldn't figure out a way to make the text show and i'm not sure why -->
+        <div class="myscoreCircle"></div>
+
+        <div class="opDice"></div>
+        <div class="myDice"></div>
+    </body>
+</html>
