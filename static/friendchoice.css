@@ -31,7 +31,7 @@ body{
     right: 10px;
 }
 
-.opDice{
+.opDicePlace{
     width: 80px;
     height: 350px;
     background-color: #547751;
@@ -40,7 +40,7 @@ body{
     left: 10px;
 }
 
-.myDice{
+.myDicePlace{
     width: 80px;
     height: 350px;
     background-color: #547751;
@@ -48,6 +48,11 @@ body{
     bottom: 100px;
     right: 10px;
 }
+
+/* .opDice img{
+    display: block;
+    margin: 0 auto;
+} */
 
 .setting-button{
     position: absolute;
