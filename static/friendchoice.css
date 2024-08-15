@@ -2,13 +2,21 @@ body{
     background-color: #5D8C5A;
 }
 
+/* .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: column;
+    flex-shrink: 0;
+} */
+
 .table{
     width: 1250px;
     height: 600px;
     background-color: #547751;
-    position:absolute;
+    position: absolute;
     top: 10%;
-    left: 8%;
+    left: 10%;
 }
 
 .opscoreCircle{
@@ -41,26 +49,35 @@ body{
 
 .opDicePlace{
     width: 80px;
-    height: 350px;
+    height: 600px;
     background-color: #547751;
     position:absolute;
     top: 100px;
     left: 10px;
 }
 
+.opDicePlace img{
+    width: 60px;
+    position: relative;
+    left: 12.5%;
+    top: 10px;
+}
+
 .myDicePlace{
     width: 80px;
-    height: 350px;
+    height: 600px;
     background-color: #547751;
     position:absolute;
     bottom: 100px;
     right: 10px;
 }
 
-/* .opDice img{
-    display: block;
-    margin: 0 auto;
-} */
+.myDicePlace img{
+    width: 60px;
+    position: relative;
+    left: 12.5%;
+    top: 10px;
+}
 
 .setting-button{
     position: absolute;
