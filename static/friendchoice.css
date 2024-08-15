@@ -10,6 +10,25 @@ body{
     flex-shrink: 0;
 } */
 
+.notification{
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    padding:10px;
+    border-radius: 10px;
+
+    transform: translate(-50%,0);
+    background-color: aliceblue;
+}
+
+.notification p{
+    font-size: x-large;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .table{
     width: 1250px;
     height: 600px;
@@ -102,4 +121,19 @@ body{
     padding: 20px;
     border-radius: 10px;
     z-index: 1000;
+}
+
+.roll{
+    position:fixed;
+    bottom: 7.5%;
+    left: 50%;
+    transform: translate(-50%,0);   
+}
+
+.roll button{
+    width: 200px;
+    font-size: large;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
 }
