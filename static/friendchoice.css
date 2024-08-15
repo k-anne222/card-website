@@ -1,0 +1,80 @@
+body{
+    background-color: #5D8C5A;
+}
+
+.table{
+    width: 1250px;
+    height: 600px;
+    background-color: #547751;
+    position:absolute;
+    top: 10%;
+    left: 8%;
+}
+
+.opscoreCircle{
+    height: 75px;
+    width: 75px;
+    background-color: #547751;
+    border-radius: 200px;
+    position:absolute;
+    top: 10px;
+    left: 10px;
+}
+
+.myscoreCircle{
+    height: 75px;
+    width: 75px;
+    background-color: #547751;
+    border-radius: 200px;
+    position:absolute;
+    bottom: 10px;
+    right: 10px;
+}
+
+.opDicePlace{
+    width: 80px;
+    height: 350px;
+    background-color: #547751;
+    position:absolute;
+    top: 100px;
+    left: 10px;
+}
+
+.myDicePlace{
+    width: 80px;
+    height: 350px;
+    background-color: #547751;
+    position:absolute;
+    bottom: 100px;
+    right: 10px;
+}
+
+/* .opDice img{
+    display: block;
+    margin: 0 auto;
+} */
+
+.setting-button{
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.setting-button img{
+    width:50px;
+}
+
+.setting-window{
+    display: none;
+    position:fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    z-index: 1000;
+}
