@@ -11,7 +11,7 @@ make website to play a card game
 4. A tool to control the game algorithm
 
 ## Rule of Game
-receive a total of 10 cards in the beginning 
+receive a total of 10 cards of character and potion cards in the beginning 
 
 if speed is 20, able to use 2 cards in one turn, if 10, user is able to immediately use card at their turn but if speed is 5, have to skip their turn 
 
@@ -21,3 +21,5 @@ each 'character' card has spd, hp, atk, sp. atk attributes, each 'potion' card g
 game carries on every round until user.Score + op.Score = 11
 
 whoever has highest percentage of character cards left wins the round
+
+have to pick up spell cards from middle pile 
