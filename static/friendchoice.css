@@ -167,6 +167,12 @@ body{
     border-radius: 10px;
 }
 
-.col{
-    rotate: 90 deg;
+.friend-card{
+    transform: rotate(90deg);
+}
+/* .middle-card{
+    transform: rotate(90deg);
+} */
+.my-card{
+    transform: rotate(-90deg);
 }
