@@ -2,7 +2,9 @@ const middle_cards = ["atk sp.png", "atk.png"];
 // cards constant should have 20 cards in total
 var cards = ["buffer.png", "buffer 2.png", "buffer 3.png",
     "buffer 4.png", "buffer 5.png", "buffer 6.png"];
-var character_cards = [];
+var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png", "char degoose.png", "char eledrowsy.png", 
+    "char frog.png", "char GOAT.png", "char hippowerhouse.png", "char mole.png", "char peaparrot.png", "char pigeon.png", "char platy.png", 
+    "char scharecrow.png", "char shark.png", "char stingray.png"];
 
 var executed=false;
 
