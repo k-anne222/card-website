@@ -23,24 +23,14 @@
             <img src="images\settings black and white.png" alt="settingslogo">
         </button>
         
-        <!-- <audio controls autoplay loop>
-            <source src="static/night-detective-226857.mp3">
-        </audio> -->
-
-        <audio src="static/night-detective-226857.mp3" controls>	
-            <embed 
-                src="static/night-detective-226857.mp3"
-                hidden = "true"
-                loop="true"
-                autostart="true">
-        </audio>
+        <audio id="bg-audio" src="static/night-detective-226857.mp3" loop style="display:none;"></audio>
 
         <!-- <embed name="bgmusic" src="static/night-detective-226857.mp3" loop="true" hidden="true" autostart="true"> -->
 
         <div class="setting-window" id="setting-window">
             <h2>Settings</h2>
-            <label for="bg-sound">Volume: </label>
-            <input type="range" id="bg-sound" name="bg-sound" min="0" max="100">
+            <label for="bg-volume">Volume: </label>
+            <input type="range" id="bg-volume" name="bg-volume" min="0" max="100">
             <br><br>
             <button onclick="closeSetting()">Close</button>
         </div>
