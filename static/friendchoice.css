@@ -1,22 +1,27 @@
 body{
     background-color: #5D8C5A;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
 .table {
     /* height: 100%; */
     display: grid;
-    grid-template-columns: 1fr 1fr 3fr 2fr 3fr 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr 2fr 2fr 2fr 1fr 1fr; */
+    grid-template-columns: 1fr 1fr 2fr 1.5fr 2fr 1fr 1fr;
+
     /* display: grid; */
     /* vertical-align: middle; */
     /* flex-direction: row; */
     /* font-size: 0; */
     /* align-items: center; */
-    /* width: 90%; */
-    height: 80%;
+    width: 87vw;
+    height: 75vh;
     background-color: #547751;
-    position: absolute;
-    top: 10%;
-    left: 10%;
 }
 
 /* .row{
@@ -28,16 +33,39 @@ body{
 } */
 
 .col{
-    height: auto;
+    /* height: auto; */
     /* display: inline-block; */
+    display: flex;
     flex-direction: column;
     align-items: center;
-    padding-left: 5px;
+    /* padding-left: 5px; */
+
+    /* justify-content: space-between; Evenly spaces the images vertically */
+    justify-content: center; /* Evenly spaces the images vertically */
+    height: 100%;
+    /* padding: 5px; */
 }
 
 .col img{
     /* width: ; */
-    height: 15vh;
+    /* height: 15vh; */
+    height: auto;
+    max-height: 15vh;
+    max-width: 100%;
+    object-fit: contain;
+    margin-bottom: 0;
+}
+
+.central-col {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centers cards vertically */
+    align-items: center;
+    height: 100%;
+}
+
+.central-col img {
+    margin-bottom: -2vh; /* Reduce space between the two central cards */
 }
 
 /* .col-1, .col-2, .col-3{
@@ -50,9 +78,10 @@ body{
 
 .notification{
     position: absolute;
-    top: 10px;
+    top: 2vh;
     left: 50%;
-    padding:10px;
+    /* padding:10px; */
+    padding: 1vh 2vw; /* Use viewport units for padding */
     border-radius: 10px;
 
     transform: translate(-50%,0);
@@ -60,7 +89,8 @@ body{
 }
 
 .notification p{
-    font-size: x-large;
+    /* font-size: x-large; */
+    font-size: 2.5vh; /* Adjust the font size based on viewport height */
 
     display: flex;
     justify-content: center;
@@ -68,13 +98,13 @@ body{
 }
 
 .opscoreCircle{
-    height: 75px;
-    width: 75px;
+    height: 10vh;
+    width: 5.5vw;
     background-color: #547751;
     border-radius: 200px;
     position:absolute;
-    top: 10px;
-    left: 10px;
+    top: 2vh;
+    left: 1vw;
 
     display: flex;
     justify-content: center;
@@ -82,13 +112,13 @@ body{
 }
 
 .myscoreCircle{
-    height: 75px;
-    width: 75px;
+    height: 10vh;
+    width: 5.5vw;
     background-color: #547751;
     border-radius: 200px;
     position:absolute;
-    bottom: 10px;
-    right: 10px;
+    bottom: 2vh;
+    right: 1vw;
 
     display: flex;
     justify-content: center;
@@ -96,48 +126,59 @@ body{
 }
 
 .opDicePlace{
-    width: 80px;
-    height: 600px;
+    width: 4vw;
+    height: 55vh;
     background-color: #547751;
     position:absolute;
-    top: 100px;
-    left: 10px;
-}
-
-.opDicePlace img{
-    width: 60px;
-    position: relative;
-    left: 12.5%;
-    top: 10px;
+    top: 15vh;
+    left: 0.5vw;
+    
+    display: flex;
+    justify-content: space-between; /* Distribute dice images evenly */
+    flex-direction: column;
+    padding-top: 1vh; /* Adjust padding to fine-tune the positioning */
+    padding-bottom: 1vh; /* Adjust padding to fine-tune the positioning */
+    align-items: center; /* Center the dice images horizontally */
 }
 
 .myDicePlace{
-    width: 80px;
-    height: 600px;
+    width: 4vw;
+    height: 55vh;
     background-color: #547751;
     position:absolute;
-    bottom: 100px;
-    right: 10px;
+    bottom: 15vh; /* Position relative to viewport height */
+    right: 0.5vw; /* Position relative to viewport width */
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribute dice images evenly */
+    padding-top: 1vh; /* Adjust padding to fine-tune the positioning */
+    padding-bottom: 1vh; /* Adjust padding to fine-tune the positioning */
+    align-items: center; /* Center the dice images horizontally */
 }
 
-.myDicePlace img{
-    width: 60px;
+.opDicePlace img, .myDicePlace img{
+    width: 3vw;
     position: relative;
-    left: 12.5%;
-    top: 10px;
+    /* left: 12.5%; */
+    margin-top: 0; /* Remove margin-top to eliminate extra space */
+    margin-bottom: 0; /* Remove margin-bottom to eliminate extra space */
 }
 
 .setting-button{
     position: absolute;
-    top: 10px;
-    right: 10px;
+    /* top: 10px;
+    right: 10px; */
+    top: 2vh; /* Position relative to viewport height */
+    right: 1vw; /* Position relative to viewport width */
     background: none;
     border: none;
     cursor: pointer;
 }
 
 .setting-button img{
-    width:50px;
+    width: 4vw; /* Proportional size based on viewport width */
+    /* width:50px; */
 }
 
 .setting-window{
@@ -147,23 +188,31 @@ body{
     left: 50%;
     transform: translate(-50%,-50%);
     background-color: white;
-    padding: 20px;
+    /* padding: 20px; */
+    padding: 2vh 3vw; /* Proportional padding */
     border-radius: 10px;
     z-index: 1000;
 }
 
 .roll{
     position:fixed;
-    bottom: 7.5%;
+    /* bottom: 7.5%; */
+    bottom: 5vh; /* Position relative to viewport height */
     left: 50%;
     transform: translate(-50%,0);   
 }
 
 .roll button{
-    width: 200px;
+    /* width: 200px;
     font-size: large;
     background-color: white;
     padding: 10px;
+    border-radius: 10px; */
+
+    width: 20vw; /* Proportional width based on viewport width */
+    font-size: 2vh; /* Adjust font size based on viewport height */
+    background-color: white;
+    padding: 1.5vh 2vw; /* Proportional padding */
     border-radius: 10px;
 }
 
