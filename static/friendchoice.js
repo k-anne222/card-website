@@ -6,12 +6,17 @@ var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png"
     "char frog.png", "char GOAT.png", "char hippowerhouse.png", "char mole.png", "char peaparrot.png", "char pigeon.png", "char platy.png", 
     "char scharecrow.png", "char shark.png", "char stingray.png"];
 
-var cardDistributed=false;
+var path_prefix = "images\\";
+var start=false;
 
 function rollRandomDice(){
     // pick rand num from 1 to 9
-    myDice = Math.floor(Math.random() * 9) + 1;
-    friendDice = Math.floor(Math.random() * 9) + 1;
+    let myDice = 0;
+    let friendDice = 0;
+    while (myDice == friendDice){
+        myDice = Math.floor(Math.random() * 9) + 1;
+        friendDice = Math.floor(Math.random() * 9) + 1;
+    }
     
     document
     .getElementById("notification")
@@ -23,27 +28,21 @@ function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
-function roll(){
-    if (!cardDistributed) {
-        cardDistributed = true;
+function play(){
+    if (!start) {
+        start = true;
         
         // shuffle the card in random order
         shuffle(buffer_cards);
-        console.log(buffer_cards)
         shuffle(character_cards);
-        console.log(character_cards)
         
         // random distribution of cards to each player
-        var my_cards = document.getElementsByClassName('my-card');
-        var friend_cards = document.getElementsByClassName('friend-card');
-        var idx = 0;
-        var path_prefix = "images\\";
-
-        // console.log(my_cards)
-        // console.log(friend_cards)
+        let my_cards = document.getElementsByClassName('my-card');
+        let friend_cards = document.getElementsByClassName('friend-card');
+        let idx = 0;
 
         // distribute buffer cards
-        for(var i = 0; i < buffer_cards.length; ++i){
+        for(let i = 0; i < 6; ++i){
             if(i % 2 == 0){
                 my_cards[idx].src = path_prefix + buffer_cards[i];
             }
@@ -53,7 +52,7 @@ function roll(){
             }
         }
         // distribute character cards
-        for(var i = 0; i < character_cards.length; ++i){
+        for(let i = 0; i < 14; ++i){
             if(i % 2 == 0){
                 my_cards[idx].src = path_prefix + character_cards[i];
             }
@@ -62,15 +61,42 @@ function roll(){
                 idx++;
             }
         }
+        rollRandomDice();
+        const button = document.getElementById("playButton");
+        button.style.visibility = "hidden";
     }
-    rollRandomDice();
+}
+
+function selectMyCard(cardId){
+    // write a code here, that gets the selected card (using the parameter cardID!)
+    const selectedCard = document.getElementById(cardId);
+
+    // write a code here, that gets the display board where the card should be moved into
+    const myDisplay = document.getElementById("right-display-board");
+
+    // move the selectedCard to my display board
+    let cardToBoard = selectedCard.cloneNode(true);
+    myDisplay.appendChild(cardToBoard);
+
+    selectedCard.style.visibility = 'hidden';
+}
+
+function selectFriendCard(cardId){
+    const selectedOppCard = document.getElementById(cardId);
+    const oppDisplay = document.getElementById("left-display-board")
+
+    let cardToBoard = selectedOppCard.cloneNode(true)
+    oppDisplay.appendChild(cardToBoard);
+    
+    selectedOppCard.style.visibility = 'hidden';
 }
 
 // as soon as the card distribution,
-// each player puts the char card on their display board (ofc choose which one)
 // roll the dice to choose which player goes first
 // then take whatever given on the stack i.e. sp attack / attack
 
 // getElementByClass("my-card") (but more precisely the charcter card) onClick
 // appears on the displayBoard (remain/keep the rotation)
 // max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
+
+// you only roll the dice once when we start the game just only to choose which player goes first!
