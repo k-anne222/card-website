@@ -12,6 +12,16 @@ var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png"
 var path_prefix = "images\\";
 var start=false;
 
+var myCharCardsCounter = 0;
+var myBuffCardsCounter = 0;
+var myAtkCardsCounter = 0;
+
+var friendCharCardsCounter = 0;
+var friendBuffCardsCounter = 0;
+var friendAtkCardsCounter = 0;
+
+const maxCharCards = 2;
+
 function rollRandomDice(){
     // pick rand num from 1 to 9
     let myDice = 0;
@@ -82,14 +92,6 @@ function selectMyCard(cardId){
     myDisplay.appendChild(cardToBoard);
 
     selectedCard.style.visibility = 'hidden';
-
-    if (selectedCard.style.visibility = 'hidden') {
-        onclick(selectedCard.style.visibility = 'visible')
-    }
-    if (selectedCard.style.visibility = 'visible') {
-        onclick(selectedCard.style.visibility = 'hidden')
-    }
-    
 }
 
 function selectFriendCard(cardId){
@@ -118,3 +120,8 @@ function selectFriendCard(cardId){
 // max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
 
 // you only roll the dice once when we start the game just only to choose which player goes first!
+
+/* display board: */
+// click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
+// top of the screen, give notification say, cannot be replaced!
+// once the card is on the display board, it cannot be replaced nor removed (until it’s used)
