@@ -26,3 +26,8 @@ have to pick up spell cards from middle pile
 
 ### Free Audio
 src: https://pixabay.com/music/beats-night-detective-226857/
+
+### Sources of Images Used
+src: badger - microsoft edge, cat - pinterest, chick - pinterest, goose- microsoft edge, elephant - pinterest, frog - pinterest 
+     goat - pinterest, hippo- microsoft edge, mole- pinterest, parrot- microsoft edge, pigeon- microsoft edge, platypus- pinterest, shark - pinterest
+     scarecrow - pinterest, stingray- pinterest
