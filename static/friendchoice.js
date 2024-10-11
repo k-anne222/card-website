@@ -21,6 +21,8 @@ var friendBuffCardsCounter = 0;
 var friendAtkCardsCounter = 0;
 
 const maxCharCards = 2;
+const maxBufferCards = 1;
+const maxAtkCards = 1;
 
 function rollRandomDice(){
     // pick rand num from 1 to 9
@@ -81,33 +83,75 @@ function play(){
 }
 
 function selectMyCard(cardId){
-    // write a code here, that gets the selected card (using the parameter cardID!)
+    // gets the selected card (using the parameter cardID!)
     const selectedCard = document.getElementById(cardId);
 
-    // write a code here, that gets the display board where the card should be moved into
+    // gets the display board where the card should be moved into
     const myDisplay = document.getElementById("right-display-board");
 
-    // move the selectedCard to my display board
-    let cardToBoard = selectedCard.cloneNode(true);
-    myDisplay.appendChild(cardToBoard);
+    /* 
+        ensures that the selected/clicked card is not on the board
+        if the card you selected/clicked is not on the board then it should be moved to the board
+        otherwise, nothing should happen on the card as it is already on the board!
+    */
+    if (!myDisplay.contains(selectedCard)){
+        // checks if the card seleted is a character card
+        if (selectedCard.src.includes("char")){
+            if (myCharCardsCounter == maxCharCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                myCharCardsCounter += 1;
+            }
+        }
+        // checks if the card seleted is a buffer card
+        else if(selectedCard.src.includes("buffer")){
+            if (myBuffCardsCounter == maxBufferCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                myBuffCardsCounter += 1;
+            }
+        }
+        // checks if the card seleted is a attack card
+        else if (selectedCard.src.includes("atk")){
+            if (myAtkCardsCounter == maxAtkCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                myAtkCardsCounter += 1;
+            }
+        }
 
-    selectedCard.style.visibility = 'hidden';
+        // move the selectedCard to my display board
+        let cardToBoard = selectedCard.cloneNode(true);
+        myDisplay.appendChild(cardToBoard);
+    
+        selectedCard.style.visibility = 'hidden';
+    }
+    else{
+        // give a notification that warns the user
+        // that the card, which is already placed on the board, cannot be removed or replaced
+        alert("cannot be replaced!!");
+    }
 }
 
 function selectFriendCard(cardId){
     const selectedOppCard = document.getElementById(cardId);
     const oppDisplay = document.getElementById("left-display-board")
 
-    let cardToBoard = selectedOppCard.cloneNode(true)
-    oppDisplay.appendChild(cardToBoard);
     
-    selectedOppCard.style.visibility = 'hidden';
+    if (!oppDisplay.contains(selectedOppCard)) {
+        let cardToBoard = selectedOppCard.cloneNode(true);
+        oppDisplay.appendChild(cardToBoard);
 
-    if (selectedCard.style.visibility = 'hidden') {
-        onclick(selectedCard.style.visibility = 'visible')
+        selectedOppCard.style.visibility = 'hidden';
     }
-    if (selectedCard.style.visibility = 'visible') {
-        onclick(selectedCard.style.visibility = 'hidden')
+    else {
+        alert("cannot be replaced!!");
     }
 }
 
