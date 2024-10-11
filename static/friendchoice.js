@@ -5,6 +5,9 @@ var buffer_cards = ["buffer.png", "buffer 2.png", "buffer 3.png",
 var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png", "char degoose.png", "char eledrowsy.png", 
     "char frog.png", "char GOAT.png", "char hippowerhouse.png", "char mole.png", "char peaparrot.png", "char pigeon.png", "char platy.png", 
     "char scharecrow.png", "char shark.png", "char stingray.png"];
+    //badger - microsoft edge, cat - pinterest, chick - pinterest, goose- microsoft edge, elephant - pinterest, frog - pinterest 
+    //goat - pinterest, hippo- microsoft edge, mole- pinterest, parrot- microsoft edge, pigeon- microsoft edge, platypus- pinterest, shark - pinterest
+    //scarecrow - pinterest, stingray- pinterest
 
 var path_prefix = "images\\";
 var start=false;
@@ -79,6 +82,14 @@ function selectMyCard(cardId){
     myDisplay.appendChild(cardToBoard);
 
     selectedCard.style.visibility = 'hidden';
+
+    if (selectedCard.style.visibility = 'hidden') {
+        onclick(selectedCard.style.visibility = 'visible')
+    }
+    if (selectedCard.style.visibility = 'visible') {
+        onclick(selectedCard.style.visibility = 'hidden')
+    }
+    
 }
 
 function selectFriendCard(cardId){
@@ -89,6 +100,13 @@ function selectFriendCard(cardId){
     oppDisplay.appendChild(cardToBoard);
     
     selectedOppCard.style.visibility = 'hidden';
+
+    if (selectedCard.style.visibility = 'hidden') {
+        onclick(selectedCard.style.visibility = 'visible')
+    }
+    if (selectedCard.style.visibility = 'visible') {
+        onclick(selectedCard.style.visibility = 'hidden')
+    }
 }
 
 // as soon as the card distribution,
