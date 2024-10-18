@@ -25,6 +25,8 @@ whoever has highest percentage of character cards left wins the round
 have to pick up attack cards from middle pile 
 
 
+how to play 
+
 as soon as the card distribution,
 roll the dice to choose which player goes first
 then take whatever given on the stack i.e. sp attack / attack
