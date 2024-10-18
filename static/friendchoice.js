@@ -143,14 +143,47 @@ function selectFriendCard(cardId){
     const selectedOppCard = document.getElementById(cardId);
     const oppDisplay = document.getElementById("left-display-board")
 
-    
-    if (!oppDisplay.contains(selectedOppCard)) {
-        let cardToBoard = selectedOppCard.cloneNode(true);
-        oppDisplay.appendChild(cardToBoard);
+    if (!oppDisplay.contains(selectedCard)){
+        // checks if the card seleted is a character card
+        if (selectedCard.src.includes("char")){
+            if (friendCharCardsCounter == maxCharCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                friendCharCardsCounter += 1;
+            }
+        }
+        // checks if the card seleted is a buffer card
+        else if(selectedCard.src.includes("buffer")){
+            if (friendBuffCardsCounter == maxBufferCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                friendBuffCardsCounter += 1;
+            }
+        }
+        // checks if the card seleted is a attack card
+        else if (selectedCard.src.includes("atk")){
+            if (friendAtkCardsCounter == maxAtkCards){
+                alert('cannot be replaced!!');
+                Break;
+            }
+            else{
+                friendAtkCardsCounter += 1;
+            }
+        }
 
-        selectedOppCard.style.visibility = 'hidden';
+        // move the selectedCard to my display board
+        let cardToBoard = selectedCard.cloneNode(true);
+        oppDisplay.appendChild(cardToBoard);
+    
+        selectedCard.style.visibility = 'hidden';
     }
-    else {
+    else{
+        // give a notification that warns the user
+        // that the card, which is already placed on the board, cannot be removed or replaced
         alert("cannot be replaced!!");
     }
 }
