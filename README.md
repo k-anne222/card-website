@@ -22,7 +22,23 @@ game carries on every round until user.Score + op.Score = 11
 
 whoever has highest percentage of character cards left wins the round
 
-have to pick up spell cards from middle pile 
+have to pick up attack cards from middle pile 
+
+
+as soon as the card distribution,
+roll the dice to choose which player goes first
+then take whatever given on the stack i.e. sp attack / attack
+
+getElementByClass("my-card") (but more precisely the charcter card) onClick
+appears on the displayBoard (remain/keep the rotation)
+max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
+
+you only roll the dice once when we start the game just only to choose which player goes first!
+
+/* display board: */
+click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
+top of the screen, give notification say, cannot be replaced!
+once the card is on the display board, it cannot be replaced nor removed (until it’s used)
 
 ### Free Audio
 src: https://pixabay.com/music/beats-night-detective-226857/
