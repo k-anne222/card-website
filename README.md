@@ -36,6 +36,7 @@ max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
 you only roll the dice once when we start the game just only to choose which player goes first!
 
 /* display board: */
+
 click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
 top of the screen, give notification say, cannot be replaced!
 once the card is on the display board, it cannot be replaced nor removed (until it’s used)
