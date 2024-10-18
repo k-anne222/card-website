@@ -20,14 +20,15 @@ var friendCharCardsCounter = 0;
 var friendBuffCardsCounter = 0;
 var friendAtkCardsCounter = 0;
 
+
 const maxCharCards = 2;
 const maxBufferCards = 1;
 const maxAtkCards = 1;
 
 function rollRandomDice(){
-    // pick rand num from 1 to 9
     let myDice = 0;
     let friendDice = 0;
+    // pick rand num from 1 to 9
     while (myDice == friendDice){
         myDice = Math.floor(Math.random() * 9) + 1;
         friendDice = Math.floor(Math.random() * 9) + 1;
@@ -80,6 +81,49 @@ function play(){
         const button = document.getElementById("playButton");
         button.style.visibility = "hidden";
     }
+}
+
+// the card in the middle stack must be given randomly
+// shuffle(middle_cards)
+
+function updateCardStack(){
+    const atkCardsPile = document.getElementById("card-stack");
+    
+    // 0.1 * 2 = 0.2 -> 0
+    // 0.3 * 2 = 0.6 -> 0
+    // 0.5 * 2 = 1.0 -> 1
+    // 0.7 * 2 = 1.4 -> 1
+    // 0.9 * 2 = 1.8 -> 1
+    
+    // flooring (= rounding down to the nearest whole number)
+    const randomCardIndex = Math.floor(Math.random() * middle_cards.length);
+
+    // update the image of the card <- middle_cards[randomCardIndex]    
+    atkCardsPile.src = path_prefix + middle_cards[randomCardIndex];
+}
+
+function takeCard(){
+    const selectedCard = document.getElementById("card-stack");
+    const myDisplay = document.getElementById("right-display-board");
+    const oppDisplay = document.getElementById("left-display-board");
+    
+    if(!myDisplay.contains(selectedCard)){
+        // move the selectedCard to my display board
+        let cardToBoard = selectedCard.cloneNode(true);
+        myDisplay.appendChild(cardToBoard);
+    }
+    else{
+        // move the selectedCard to friend's display board
+        let cardToBoard = selectedCard.cloneNode(true);
+        oppDisplay.appendChild(cardToBoard);
+    }
+    updateCardStack();
+    
+    // if the roll number of friend is bigger
+    // then the takeCard function must place the card to the friend's side
+    
+    // if the roll number of mine is bigger
+    // then the takeCard function must place the card to the my side
 }
 
 function selectMyCard(cardId){
