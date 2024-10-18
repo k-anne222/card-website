@@ -5,9 +5,7 @@ var buffer_cards = ["buffer.png", "buffer 2.png", "buffer 3.png",
 var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png", "char degoose.png", "char eledrowsy.png", 
     "char frog.png", "char GOAT.png", "char hippowerhouse.png", "char mole.png", "char peaparrot.png", "char pigeon.png", "char platy.png", 
     "char scharecrow.png", "char shark.png", "char stingray.png"];
-    //badger - microsoft edge, cat - pinterest, chick - pinterest, goose- microsoft edge, elephant - pinterest, frog - pinterest 
-    //goat - pinterest, hippo- microsoft edge, mole- pinterest, parrot- microsoft edge, pigeon- microsoft edge, platypus- pinterest, shark - pinterest
-    //scarecrow - pinterest, stingray- pinterest
+
 
 var path_prefix = "images\\";
 var start=false;
@@ -20,14 +18,14 @@ var friendCharCardsCounter = 0;
 var friendBuffCardsCounter = 0;
 var friendAtkCardsCounter = 0;
 
-
 const maxCharCards = 2;
 const maxBufferCards = 1;
 const maxAtkCards = 1;
 
+var myDice = 0;
+var friendDice = 0;
+
 function rollRandomDice(){
-    let myDice = 0;
-    let friendDice = 0;
     // pick rand num from 1 to 9
     while (myDice == friendDice){
         myDice = Math.floor(Math.random() * 9) + 1;
@@ -83,9 +81,6 @@ function play(){
     }
 }
 
-// the card in the middle stack must be given randomly
-// shuffle(middle_cards)
-
 function updateCardStack(){
     const atkCardsPile = document.getElementById("card-stack");
     
@@ -104,26 +99,56 @@ function updateCardStack(){
 
 function takeCard(){
     const selectedCard = document.getElementById("card-stack");
+    
+    let cardToBoard = document.createElement('img');
+    cardToBoard.src = selectedCard.src;
+    cardToBoard.className = selectedCard.className;
+    
     const myDisplay = document.getElementById("right-display-board");
     const oppDisplay = document.getElementById("left-display-board");
     
-    if(!myDisplay.contains(selectedCard)){
-        // move the selectedCard to my display board
-        let cardToBoard = selectedCard.cloneNode(true);
-        myDisplay.appendChild(cardToBoard);
-    }
-    else{
-        // move the selectedCard to friend's display board
-        let cardToBoard = selectedCard.cloneNode(true);
-        oppDisplay.appendChild(cardToBoard);
-    }
-    updateCardStack();
-    
     // if the roll number of friend is bigger
     // then the takeCard function must place the card to the friend's side
-    
+    if(myDice > friendDice){
+        if(myAtkCardsCounter < maxAtkCards){
+            // move the selectedCard to my display board
+            // let cardToBoard = selectedCard.cloneNode(true);
+            myDisplay.appendChild(cardToBoard);
+            myAtkCardsCounter += 1;
+            updateCardStack();
+        }
+        else if(friendAtkCardsCounter < maxAtkCards){
+            // move the selectedCard to friend's display board
+            // let cardToBoard = selectedCard.cloneNode(true);
+            oppDisplay.appendChild(cardToBoard);
+            friendAtkCardsCounter += 1;
+            updateCardStack();
+        }
+        else{
+            alert("no more attack cards can be placed");
+        }
+    }
     // if the roll number of mine is bigger
     // then the takeCard function must place the card to the my side
+    else{
+        if(friendAtkCardsCounter < maxAtkCards){
+            // move the selectedCard to friend's display board
+            // let cardToBoard = selectedCard.cloneNode(true);
+            oppDisplay.appendChild(cardToBoard);
+            friendAtkCardsCounter += 1;
+            updateCardStack();
+        }
+        else if(myAtkCardsCounter < maxAtkCards){
+            // move the selectedCard to my display board
+            // let cardToBoard = selectedCard.cloneNode(true);
+            myDisplay.appendChild(cardToBoard);
+            myAtkCardsCounter += 1;
+            updateCardStack();
+        }
+        else{
+            alert("no more attack cards can be placed");
+        }
+    }
 }
 
 function selectMyCard(cardId){
@@ -184,7 +209,7 @@ function selectMyCard(cardId){
 }
 
 function selectFriendCard(cardId){
-    const selectedOppCard = document.getElementById(cardId);
+    const selectedCard = document.getElementById(cardId);
     const oppDisplay = document.getElementById("left-display-board")
 
     if (!oppDisplay.contains(selectedCard)){
@@ -220,7 +245,12 @@ function selectFriendCard(cardId){
         }
 
         // move the selectedCard to my display board
-        let cardToBoard = selectedCard.cloneNode(true);
+        // let cardToBoard = selectedCard.cloneNode(true);
+
+        let cardToBoard = document.createElement('img');
+        cardToBoard.src = selectedCard.src;
+        cardToBoard.className = selectedCard.className;
+
         oppDisplay.appendChild(cardToBoard);
     
         selectedCard.style.visibility = 'hidden';
