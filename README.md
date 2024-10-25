@@ -1,5 +1,5 @@
-# card-website
-make website to play a card game
+# Two Players Card Game Website
+make a website to play a card game <!--give a more clear and detail but brief description about what this game is about-->
 
 ## Frontend
 1. HTML (the create and design structures and components)
@@ -11,9 +11,9 @@ make website to play a card game
 4. A tool to control the game algorithm
 
 ## Rule of Game
-receive a total of 10 cards of character and potion cards in the beginning 
+1. Receive a total of 10 cards of character and potion cards at the beginning 
 
-if speed is 20, able to use 2 cards in one turn, if 10, user is able to immediately use card at their turn but if speed is 5, have to skip their turn 
+2. if speed is 20, able to use 2 cards in one turn, if 10, user is able to immediately use card at their turn but if speed is 5, have to skip their turn 
 
 each 'character' card has spd, hp, atk, sp. atk attributes, each 'potion' card gives a buffer (def or spd or atk multiplier) and each 'spell' card tells user which atk to use (atk or sp.atk) 
 [all spell cards have 20 spd]
@@ -31,9 +31,9 @@ roll the dice to choose which player goes first
 then take whatever given on the stack i.e. sp attack / attack
 
 
-getElementByClass("my-card") (but more precisely the character card) onClick
+<!-- getElementByClass("my-card") (but more precisely the character card) onClick -->
 
-appears on the displayBoard (remain/keep the rotation)
+<!-- appears on the displayBoard (remain/keep the rotation) -->
 
 max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
 
@@ -43,11 +43,11 @@ you only roll the dice once when we start the game just only to choose which pla
 
 ## display board: 
 
-click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
+<!-- click one of the cards on the display board then it will be vibrated shortly indicate that it cannot be moved (give a motion) -->
 
-top of the screen, give notification say, cannot be replaced!
+<!-- top of the screen, give notification say, cannot be replaced! -->
 
-once the card is on the display board, it cannot be replaced nor removed (until it’s used)
+once the card is on the display board, it cannot be replaced nor removed (until it’s used); if you attempt, there will be a notification alarming that you can't
 
 
 ## how to play 
@@ -61,12 +61,6 @@ appears on the displayBoard (remain/keep the rotation)
 max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
 
 you only roll the dice once when we start the game just only to choose which player goes first!
-
-## display board:
-
-click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
-top of the screen, give notification say, cannot be replaced!
-once the card is on the display board, it cannot be replaced nor removed (until it’s used)
 
 ### Free Audio
 src: https://pixabay.com/music/beats-night-detective-226857/
