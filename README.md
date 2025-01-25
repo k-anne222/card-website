@@ -7,60 +7,53 @@ make a website to play a card game <!--give a more clear and detail but brief de
 
 ## Backend
 3. A tool to control sound
-4. A tool to control Log In and Log Out
-4. A tool to control the game algorithm
+4. A tool to control Log In and Log Out (no)
+5. A tool to control the game algorithm
 
 ## Rule of Game
-1. Receive a total of 10 cards of character and potion cards at the beginning 
+1. Receive a total of 10 cards of character and potion(booster) cards at the beginning as card distribution
 
-2. if speed is 20, able to use 2 cards in one turn, if 10, user is able to immediately use card at their turn but if speed is 5, have to skip their turn 
+     a. 7 character cards
+   
+     b. 3 potion(booster) card
 
-each 'character' card has spd, hp, atk, sp. atk attributes, each 'potion' card gives a buffer (def or spd or atk multiplier) and each 'spell' card tells user which atk to use (atk or sp.atk) 
-[all spell cards have 20 spd]
+2. Each player rolls the dice to decide which player goes first; they then take whatever is given on the stack i.e. sp attack / attack
 
-game carries on every round until user.Score + op.Score = 11
+     - you roll the dice only once when we start the game; just to choose which player goes first!
 
-whoever has highest percentage of character cards left wins the round
+3. Each player has to pick up attack cards from the middle pile
 
-have to pick up attack cards from middle pile 
+4. The max number of cards each player can place on their display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
 
+5. Depending on the speed of the character:
 
-as soon as the card distribution,
+     Selecting a character card from the "inventory" (not the display board!) to move to the display board:
 
-roll the dice to choose which player goes first
-then take whatever given on the stack i.e. sp attack / attack
+   a. if the selected character's card speed is 20, the user can use the character card with/without one of the booster cards in one turn but must with atk/sp.atk
 
+   b. if the character speed is 10, the user is able to immediately use one character card at their turn with atk/sp.atk
+
+   c. if the character speed is 5, the player skips their own turn
+        (1. if the speed of the character card you selected to move from the inventory and place to the display board...)
+
+Each 'character' card has spd, hp, atk, sp.atk attributes, each 'potion' card gives a buffer (def or spd or atk multiplier) and each 'spell' card tells the user which atk to use (atk or sp.atk) 
+
+## Win Condition
+- The game carries on every round until user.Score + op.Score = 11
+
+- Whoever has the highest percentage of character cards left wins the round
 
 <!-- getElementByClass("my-card") (but more precisely the character card) onClick -->
 
 <!-- appears on the displayBoard (remain/keep the rotation) -->
 
-max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
-
-
-you only roll the dice once when we start the game just only to choose which player goes first!
-
-
-## display board: 
+## About the Display Board: 
 
 <!-- click one of the cards on the display board then it will be vibrated shortly indicate that it cannot be moved (give a motion) -->
 
 <!-- top of the screen, give notification say, cannot be replaced! -->
 
-once the card is on the display board, it cannot be replaced nor removed (until it’s used); if you attempt, there will be a notification alarming that you can't
-
-
-## how to play 
-
-as soon as the card distribution,
-roll the dice to choose which player goes first
-then take whatever given on the stack i.e. sp attack / attack
-
-getElementByClass("my-card") (but more precisely the charcter card) onClick
-appears on the displayBoard (remain/keep the rotation)
-max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
-
-you only roll the dice once when we start the game just only to choose which player goes first!
+Once the card is on the display board, it cannot be replaced nor removed (until it’s used); if you attempt, there will be a notification alarming that you can't
 
 ### Free Audio
 src: https://pixabay.com/music/beats-night-detective-226857/
