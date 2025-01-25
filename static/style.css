@@ -16,7 +16,6 @@ body{
 
 .main-content a{
     position: relative;
-    transform: translate(0%, -300%);
     display: block;
     color:black;
     font-size: xx-large;
