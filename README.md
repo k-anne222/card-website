@@ -12,14 +12,11 @@ make a website to play a card game <!--give a more clear and detail but brief de
 
 ## Rule of Game
 1. Receive a total of 10 cards of character and potion(booster) cards at the beginning as card distribution
-
-     a. 7 character cards
-   
-     b. 3 potion(booster) card
+   - 7 character cards
+   - 3 potion(booster) card
 
 2. Each player rolls the dice to decide which player goes first; they then take whatever is given on the stack i.e. sp attack / attack
-
-     - you roll the dice only once when we start the game; just to choose which player goes first!
+   - you roll the dice only once when we start the game; just to choose which player goes first!
 
 3. Each player has to pick up attack cards from the middle pile
 
