@@ -85,13 +85,13 @@ var char_cards_properties = {
         "sp atk" : 20, 
         "sp" : 5
     }, 
-    "var shark" : {
+    "char shark" : {
         "hp" : 20, 
         "atk" : 10, 
         "sp atk" : 25, 
         "sp" : 5
     },
-    "stingray" : {
+    "char stingray" : {
         "hp" : 35, 
         "atk" : 5, 
         "sp atk" : 40, 
@@ -116,6 +116,9 @@ const maxAtkCards = 1;
 
 var myDice = 0;
 var friendDice = 0;
+
+var myScore = 0;
+var friendScore = 0;
 
 function rollRandomDice(){
     // pick rand num from 1 to 9
@@ -170,6 +173,9 @@ function play(){
         rollRandomDice();
         const button = document.getElementById("playButton");
         button.style.visibility = "hidden";
+        
+        const board = document.getElementById("board");
+        board.style.visibility = "visible";
     }
 }
 
@@ -290,6 +296,8 @@ function selectMyCard(cardId){
         // move the selectedCard to my display board
         let cardToBoard = selectedCard.cloneNode(true);
         myDisplay.appendChild(cardToBoard);
+        cardToBoard.setAttribute("onClick", "my_attack(" + cardId + ")"); 
+
     
         selectedCard.style.visibility = 'hidden';
     }
@@ -352,6 +360,38 @@ function selectFriendCard(cardId){
         // that the card, which is already placed on the board, cannot be removed or replaced
         alert("cannot be replaced!!");
     }
+}
+
+var my_picked_cards = [];
+
+function my_attack(cardId){
+    const selectedCard = document.getElementById(cardId);
+    var card_name = selectedCard.getAttribute("src"); // 'images\\char stingray.png'
+    card_name = card_name.substring(7, card_name.length - 4); // char stringray
+
+    my_picked_cards.push(card_name)
+
+    var board = document.getElementById(board);
+    board.innerHTML = "Your selected cards are: ";
+
+
+    // if (card_name in char_cards_propertie){
+
+    //     speed_of_the_selectedCard = char_cards_properties[card_name]["sp"]
+
+    //     if (speed_of_the_selectedCard == 20){
+    //         // can use both buffer&middle or just the middle
+    //     }
+    //     else if (speed_of_the_selectedCard == 10){
+
+    //     }
+    //     else{
+
+    //     }
+    // }
+    // else{
+
+    // }
 }
 
 // as soon as the card distribution,

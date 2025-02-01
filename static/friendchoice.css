@@ -186,6 +186,15 @@ body{
     z-index: 1000;
 }
 
+.board{
+    visibility: hidden;
+    position:fixed;
+    /* bottom: 7.5%; */
+    bottom: 5vh; /* Position relative to viewport height */
+    left: 50%;
+    transform: translate(-50%,0);
+}
+
 .roll{
     position:fixed;
     /* bottom: 7.5%; */
