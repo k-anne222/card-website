@@ -117,6 +117,9 @@ const maxAtkCards = 1;
 var myDice = 0;
 var friendDice = 0;
 
+var myScore = 0;
+var friendScore = 0;
+
 function rollRandomDice(){
     // pick rand num from 1 to 9
     while (myDice == friendDice){
@@ -290,6 +293,8 @@ function selectMyCard(cardId){
         // move the selectedCard to my display board
         let cardToBoard = selectedCard.cloneNode(true);
         myDisplay.appendChild(cardToBoard);
+        document.getElementById(cardId).onclick = attack()
+
     
         selectedCard.style.visibility = 'hidden';
     }
@@ -352,6 +357,10 @@ function selectFriendCard(cardId){
         // that the card, which is already placed on the board, cannot be removed or replaced
         alert("cannot be replaced!!");
     }
+}
+
+function attack(){
+    
 }
 
 // as soon as the card distribution,
