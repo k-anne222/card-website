@@ -11,9 +11,9 @@ make a website to play a card game <!--give a more clear and detail but brief de
 5. A tool to control the game algorithm
 
 ## Rule of Game
-1. Receive a total of 10 cards of character and potion(booster) cards at the beginning as card distribution
+1. Receive a total of 10 cards of character and potion(buffer) cards at the beginning as card distribution
    - 7 character cards
-   - 3 potion(booster) card
+   - 3 potion(buffer) card
 
 2. Each player rolls the dice to decide which player goes first; they then take whatever is given on the stack i.e. sp attack / attack
    - you roll the dice only once when we start the game; just to choose which player goes first!
@@ -26,7 +26,7 @@ make a website to play a card game <!--give a more clear and detail but brief de
 
      Selecting a character card from the "inventory" (not the display board!) to move to the display board:
 
-   a. if the selected character's card speed is 20, the user can use the character card with/without one of the booster cards in one turn but must with atk/sp.atk
+   a. if the selected character's card speed is 20, the user can use the character card with/without one of the buffer cards in one turn but must with atk/sp.atk
 
    b. if the character speed is 10, the user is able to immediately use one character card at their turn with atk/sp.atk
 
