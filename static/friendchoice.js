@@ -6,109 +6,97 @@ var character_cards = ["char bumblebadger.png", "char cat.png", "char chick.png"
     "char frog.png", "char GOAT.png", "char hippowerhouse.png", "char mole.png", "char peaparrot.png", "char pigeon.png", "char platy.png", 
     "char scharecrow.png", "char shark.png", "char stingray.png"];
 
-var badger_dict = {
-    "hp" : 35, 
-    "atk" : 10, 
-    "sp atk" : 15, 
-    "sp" : 10
-}
-    
-var cat_dict = {
-    "hp" : 40, 
-    "atk" : 10, 
-    "sp atk" : 20, 
-    "sp" : 10
-}
-    
-var chick_dict = {
-    "hp" : 25, 
-    "atk" : 20, 
-    "sp atk" : 25, 
-    "sp" : 20
-}
-    
-var dagoose_dict = {
-    "hp" : 30, 
-    "atk" : 0, 
-    "sp atk" : 50, 
-    "sp" : 10
-}
-    
-var eledrowsy_dict = {
-    "hp" : 40, 
-    "atk" : 10, 
-    "sp atk" : 20, 
-    "sp" : 5
-}
-    
-var frog_dict = {
-    "hp" : 60, 
-    "atk" : 10, 
-    "sp atk" : 15, 
-    "sp" : 10
-}
-    
-var GOAT_dict = {
-    "hp" : 70, 
-    "atk" : 50, 
-    "sp atk" : 70, 
-    "sp" : 10
-}
-    
-var hippowerhouse_dict = {
-    "hp" : 45, 
-    "atk" : 50, 
-    "sp atk" : 15, 
-    "sp" : 10
-}
-    
-var mole_dict = {
-    "hp" : 20, 
-    "atk" : 5, 
-    "sp atk" : 20, 
-    "sp" : 10
-}
-    
-var peaparrot_dict = {
-    "hp" : 50, 
-    "atk" : 5, 
-    "sp atk" : 5, 
-    "sp" : 5
-}
-    
-var pigeon_dict = {
-    "hp" : 60, 
-    "atk" : 5, 
-    "sp atk" : 0, 
-    "sp" : 20
-}
-    
-var platy_dict = {
-    "hp" : 35, 
-    "atk" : 15, 
-    "sp atk" : 25, 
-    "sp" : 5
-}
-    
-    var scharecrow_dict = {
-    "hp" : 40, 
-    "atk" : 20, 
-    "sp atk" : 20, 
-    "sp" : 5
-}
-  
-var shark_dict = {
-    "hp" : 20, 
-    "atk" : 10, 
-    "sp atk" : 25, 
-    "sp" : 5
-}
-
-var stingray_dict = {
-    "hp" : 35, 
-    "atk" : 5, 
-    "sp atk" : 40, 
-    "sp" : 5
+var char_cards_properties = {
+    "char bumblebadger" : {
+        "hp" : 35, 
+        "atk" : 10, 
+        "sp atk" : 15, 
+        "sp" : 10
+    }, 
+    "char cat" : {
+        "hp" : 40, 
+        "atk" : 10, 
+        "sp atk" : 20, 
+        "sp" : 10
+    }, 
+    "char chick" : {
+        "hp" : 25, 
+        "atk" : 20, 
+        "sp atk" : 25, 
+        "sp" : 20
+    }, 
+    "char dagoose" : {
+        "hp" : 30, 
+        "atk" : 0, 
+        "sp atk" : 50, 
+        "sp" : 10
+    }, 
+    "char eledrowsy" : {
+        "hp" : 40, 
+        "atk" : 10, 
+        "sp atk" : 20, 
+        "sp" : 5
+    }, 
+    "char frog" : {
+        "hp" : 60, 
+        "atk" : 10, 
+        "sp atk" : 15, 
+        "sp" : 10
+    }, 
+    "char GOAT" : {
+        "hp" : 70, 
+        "atk" : 50, 
+        "sp atk" : 70, 
+        "sp" : 10
+    }, 
+    "char hippowerhouse" : {
+        "hp" : 45, 
+        "atk" : 50, 
+        "sp atk" : 15, 
+        "sp" : 10
+    }, 
+    "char mole" : {
+        "hp" : 20, 
+        "atk" : 5, 
+        "sp atk" : 20, 
+        "sp" : 10
+    }, 
+    "char peaparrot" : {
+        "hp" : 50, 
+        "atk" : 5, 
+        "sp atk" : 5, 
+        "sp" : 5
+    }, 
+    "char pigeon" : {
+        "hp" : 60, 
+        "atk" : 5, 
+        "sp atk" : 0, 
+        "sp" : 20
+    }, 
+    "char platy" : {
+        "hp" : 35, 
+        "atk" : 15, 
+        "sp atk" : 25, 
+        "sp" : 5
+    }, 
+    "char scharecrow" : {
+        "hp" : 40, 
+        "atk" : 20, 
+        "sp atk" : 20, 
+        "sp" : 5
+    }, 
+    "var shark" : {
+        "hp" : 20, 
+        "atk" : 10, 
+        "sp atk" : 25, 
+        "sp" : 5
+    },
+    "stingray" : {
+        "hp" : 35, 
+        "atk" : 5, 
+        "sp atk" : 40, 
+        "sp" : 5
+    } 
 }
 
 var path_prefix = "images\\";
@@ -138,7 +126,7 @@ function rollRandomDice(){
     
     document
     .getElementById("notification")
-    .innerHTML = "Your roll " + myDice + " Friend roll " + friendDice;
+    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice;
 }
 
 // shuffle the elements in the array randomly
