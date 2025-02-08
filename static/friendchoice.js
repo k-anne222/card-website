@@ -300,6 +300,11 @@ function selectMyCard(cardId){
         let cardToBoard = selectedCard.cloneNode(true);
         myDisplay.appendChild(cardToBoard);
     
+        cardToBoard.removeAttribute('onclick');
+        cardToBoard.addEventListener('click', function(){
+            attack(cardToBoard.id);
+        });
+
         selectedCard.style.visibility = 'hidden';
     }
     else{
@@ -363,17 +368,10 @@ function selectFriendCard(cardId){
     }
 }
 
-// as soon as the card distribution,
-// roll the dice to choose which player goes first
-// then take whatever given on the stack i.e. sp attack / attack
+// activated when click the card on the display board!
+function attack(cardId){
+    console.log("Attack function activated with cardID: " + cardId)
 
-// getElementByClass("my-card") (but more precisely the charcter card) onClick
-// appears on the displayBoard (remain/keep the rotation)
-// max cards on display board = 4 cards (i.e. 2 char, 1 buffer, 1 middle)
-
-// you only roll the dice once when we start the game just only to choose which player goes first!
-
-/* display board: */
-// click one of the cards on the display board then it will be vibrated shortly to indicate that it cannot be moved (give a motion)
-// top of the screen, give notification say, cannot be replaced!
-// once the card is on the display board, it cannot be replaced nor removed (until it’s used)
+    // 1. the fact that this card is selected should be noticed on the live update board!
+    // 2. the information about the card selected should be read
+}
