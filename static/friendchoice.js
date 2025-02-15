@@ -142,8 +142,8 @@ function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
-//if the game has been started/roll has been pressed, shuffle the buffer cards and character cards and distribute to each player
-//chooses two random integers for friend and user roll
+//if the game has been started/roll has been pressed, shuffle the buffer cards (call shuffle()) and character cards and distribute to each player
+//chooses two random integers for friend and user roll i.e. calls rollRandomDice(), and then makes roll button disappear
 function play(){
     if (!start) {
         start = true;
@@ -186,7 +186,8 @@ function play(){
     }
 }
 
-//
+// makes middle pile of atk and sp atk cards be randomly generated each time it's clicked
+// between the two of them, randomly generated one will appear on the top of the card stack
 function updateCardStack(){
     const atkCardsPile = document.getElementById("card-stack");
     
@@ -203,9 +204,9 @@ function updateCardStack(){
     atkCardsPile.src = path_prefix + middle_cards[randomCardIndex];
 }
 
-//function for when user clicks a card- adds the card id to a list and makes sure only certain number of 
-//types of cards can be added to display board
-function takeCard(){
+//function for when user clicks a middle stack card (sp atk / atk) - adds the card to the display board
+//and makes sure only one atk/sp atk cards can be added to display board
+function takeCardFromTheMiddleStack(){
     const selectedCard = document.getElementById("card-stack");
     
     let cardToBoard = document.createElement('img');
@@ -366,10 +367,7 @@ function selectFriendCard(cardId){
         // move the selectedCard to my display board
         // let cardToBoard = selectedCard.cloneNode(true);
 
-        let cardToBoard = document.createElement('img');
-        cardToBoard.src = selectedCard.src;
-        cardToBoard.className = selectedCard.className;
-
+        let cardToBoard = selectedCard.cloneNode(true);
         oppDisplay.appendChild(cardToBoard);
 
         cardToBoard.removeAttribute('onclick');
@@ -386,13 +384,44 @@ function selectFriendCard(cardId){
     }
 }
 
-
-
-
 // activated when click the card on the display board!
 function attack(cardId){
-    console.log("Attack function activated with cardID: " + cardId)
+    const selectedCard = document.getElementById(cardId);
+    let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''))
 
-    // 1. the fact that this card is selected should be noticed on the live update board!
-    // 2. the information about the card selected should be read
+    //shows what cards have been selected and prints out a message
+    document
+    .getElementById("board")
+    .innerHTML = "Selected card: " + cardSrc;
+
+    // get the property of the selected card
+    // 1. handle differently based on the "sp"(speed) of the card e.g. if the sp is 5/10/20... etc.
+
+    // if the card you selected is **not** character card, then it would not have "sp" property (it just does not make any sense!)
+    // we need an if statement that first checks if the card we're looking at is character card or not!
+    if (cardSrc in char_cards_properties){
+        if (char_cards_propertie[cardSrc][sp] == 5){
+            //5 spd = the character can only:
+            //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal 
+        }
+        else if (char_cards_properties[cardSrc][sp] == 10){
+            //10 spd = the character can only do:  
+            //a. Char A attack 1x but with no buffer card
+        }
+        else if (char_cards_properties[cardSrc][sp] == 20){
+            //20 spd = the character can do either: 
+            //a. Char A attack 2x but both with no buffer cards
+            //b. Char A attack 1x with buffer card 
+            //c. Char A attack 1x & Char B attack 1x 
+        }
+    }
+    else{
+        // the card you're looking at is either 1. buffer card 2. middle card
+        // you might leave this empty if you don't have any idea of what to do with it
+        // otherwise, you'll have some ideas?
+    }
+} 
+     
+function confirm(){
+    
 }

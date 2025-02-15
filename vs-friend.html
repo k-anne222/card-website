@@ -55,7 +55,7 @@
             <p>Display Board</p>
         </div>
         <div class="col central-col">
-            <img id="card-stack" class="card" src="images\atk sp.png" onclick="takeCard()"/>
+            <img id="card-stack" class="card" src="images\atk sp.png" onclick="takeCardFromTheMiddleStack()"/>
             <!-- <img class="card" src="images\atk.png" alt="attack card" /> -->
         </div>
         <div class="col" id="right-display-board">
@@ -110,8 +110,16 @@
     <div class="roll">
         <button id="playButton" onclick="play()">start</button>
     </div>
+
+
+    <div class="confirmFriendSelection">
+        <button id="confirmFriendSelection" onclick="confirm()">confirm</button>
+    </div>
     <div class="board">
         <p id="board">for updates</p>
+    </div>
+    <div class="confirmMySelection">
+        <button id="confirmMySelection" onclick="confirm()">confirm</button>
     </div>
 
 </body>

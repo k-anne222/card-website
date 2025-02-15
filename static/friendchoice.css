@@ -193,6 +193,7 @@ body{
     bottom: 5vh; /* Position relative to viewport height */
     left: 50%;
     transform: translate(-50%,0);
+    font-size: large;
 }
 
 .roll{
@@ -225,4 +226,20 @@ body{
 } */
 .my-card{
     transform: rotate(-90deg);
+}
+
+.confirmFriendSelection{
+    width: 20vw; /* Proportional width based on viewport width */
+    font-size: 2vh; /* Adjust font size based on viewport height */
+    background-color: white;
+    padding: 1.5vh 2vw; /* Proportional padding */
+    border-radius: 10px;
+}
+
+.confirmMySelection{
+    width: 20vw; /* Proportional width based on viewport width */
+    font-size: 2vh; /* Adjust font size based on viewport height */
+    background-color: white;
+    padding: 1.5vh 2vw; /* Proportional padding */
+    border-radius: 10px;
 }
