@@ -123,6 +123,8 @@ var friendScore = 0;
 var myScore = 0;
 var friendScore = 0;
 
+//stores two randomly generated integers as myDice and friendDice to determine who goes first and then 
+//writes what each integer is 
 function rollRandomDice(){
     // pick rand num from 1 to 9
     while (myDice == friendDice){
@@ -140,6 +142,8 @@ function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
+//if the game has been started/roll has been pressed, shuffle the buffer cards and character cards and distribute to each player
+//chooses two random integers for friend and user roll
 function play(){
     if (!start) {
         start = true;
@@ -182,6 +186,7 @@ function play(){
     }
 }
 
+//
 function updateCardStack(){
     const atkCardsPile = document.getElementById("card-stack");
     
@@ -198,6 +203,8 @@ function updateCardStack(){
     atkCardsPile.src = path_prefix + middle_cards[randomCardIndex];
 }
 
+//function for when user clicks a card- adds the card id to a list and makes sure only certain number of 
+//types of cards can be added to display board
 function takeCard(){
     const selectedCard = document.getElementById("card-stack");
     
@@ -252,6 +259,9 @@ function takeCard(){
     }
 }
 
+//for user
+//makes sure that after the chosen cards are in the display boards, that they can't be changed/swapped out
+//also hides the original cards to make it look like they moved from og pos to display board
 function selectMyCard(cardId){
     // gets the selected card (using the parameter cardID!)
     const selectedCard = document.getElementById(cardId);
@@ -314,6 +324,9 @@ function selectMyCard(cardId){
     }
 }
 
+//for friend
+//makes sure that after the chosen cards are in the display boards, that they can't be changed/swapped out
+//also hides the original cards to make it look like they moved from og pos to display board
 function selectFriendCard(cardId){
     const selectedCard = document.getElementById(cardId);
     const oppDisplay = document.getElementById("left-display-board")
@@ -358,6 +371,11 @@ function selectFriendCard(cardId){
         cardToBoard.className = selectedCard.className;
 
         oppDisplay.appendChild(cardToBoard);
+
+        cardToBoard.removeAttribute('onclick');
+        cardToBoard.addEventListener('click', function(){
+            attack(cardToBoard.id);
+        });
     
         selectedCard.style.visibility = 'hidden';
     }
@@ -367,6 +385,9 @@ function selectFriendCard(cardId){
         alert("cannot be replaced!!");
     }
 }
+
+
+
 
 // activated when click the card on the display board!
 function attack(cardId){
