@@ -149,13 +149,21 @@ body{
     align-items: center; /* Center the dice images horizontally */
 }
 
-.opDicePlace img, .myDicePlace img{
-    width: 3vw;
-    position: relative;
-    /* left: 12.5%; */
-    margin-top: 0; /* Remove margin-top to eliminate extra space */
-    margin-bottom: 0; /* Remove margin-bottom to eliminate extra space */
+.confirmFriendSelection{
+    size: 30%;
+    position:absolute;
+    bottom: 50vh; /* Position relative to viewport height */
+    right: 20vw;
 }
+
+
+.confirmMySelection{
+    size: 50%;
+    position:absolute;
+    bottom: 400vh; /* Position relative to viewport height */
+    right: 20vw;
+}
+
 
 .setting-button{
     position: absolute;
