@@ -149,20 +149,21 @@ body{
     align-items: center; /* Center the dice images horizontally */
 }
 
-.confirmFriendSelection{
+/* .confirmFriendSelection{
     size: 30%;
     position:absolute;
-    bottom: 50vh; /* Position relative to viewport height */
+    bottom: 50vh;
     right: 20vw;
+    padding: 1.5vh 2vw;
 }
 
 
 .confirmMySelection{
     size: 50%;
     position:absolute;
-    bottom: 400vh; /* Position relative to viewport height */
-    right: 20vw;
-}
+    bottom: 400vh; 
+    right: 100vw;
+} */
 
 
 .setting-button{
@@ -237,17 +238,37 @@ body{
 }
 
 .confirmFriendSelection{
-    width: 20vw; /* Proportional width based on viewport width */
-    font-size: 2vh; /* Adjust font size based on viewport height */
-    background-color: white;
-    padding: 1.5vh 2vw; /* Proportional padding */
+    font-size: 2vh;
+    /* width: 50px;
+    height: 25px; */
+    padding: 1.5vh; /* Proportional padding */
     border-radius: 10px;
+
+    position:absolute;
+    top: 15vh;
+    left: 0.5vw;
+    
+    display: flex;
+    justify-content: space-between; /* Distribute dice images evenly */
+    flex-direction: column;
+    padding-top: 1vh; /* Adjust padding to fine-tune the positioning */
+    padding-bottom: 1vh; /* Adjust padding to fine-tune the positioning */
+    align-items: center; /* Center the dice images horizontally */
 }
 
 .confirmMySelection{
-    width: 20vw; /* Proportional width based on viewport width */
     font-size: 2vh; /* Adjust font size based on viewport height */
-    background-color: white;
-    padding: 1.5vh 2vw; /* Proportional padding */
+    padding: 1.5vh; /* Proportional padding */
     border-radius: 10px;
+
+    position:absolute;
+    bottom: 15vh; /* Position relative to viewport height */
+    right: 0.5vw; /* Position relative to viewport width */
+    
+    display: flex;
+    justify-content: space-between; /* Distribute dice images evenly */
+    flex-direction: column;
+    padding-top: 1vh; /* Adjust padding to fine-tune the positioning */
+    padding-bottom: 1vh; /* Adjust padding to fine-tune the positioning */
+    align-items: center; /* Center the dice images horizontally */
 }

@@ -123,6 +123,14 @@ var friendScore = 0;
 var myScore = 0;
 var friendScore = 0;
 
+var cardsToConfirm = {
+    "character": "",
+    "buffer": "",
+    "middle": ""
+}
+
+var turn = null;
+
 //stores two randomly generated integers as myDice and friendDice to determine who goes first and then 
 //writes what each integer is 
 function rollRandomDice(){
@@ -132,9 +140,16 @@ function rollRandomDice(){
         friendDice = Math.floor(Math.random() * 9) + 1;
     }
     
+    if (friendDice > myDice){
+        turn = "friend"
+    }
+    else{
+        turn = "me"
+    }
+    
     document
     .getElementById("notification")
-    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice;
+    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + " | Turn: " + turn;
 }
 
 // shuffle the elements in the array randomly
@@ -210,8 +225,11 @@ function takeCardFromTheMiddleStack(){
     const selectedCard = document.getElementById("card-stack");
     
     let cardToBoard = document.createElement('img');
+    cardToBoard.id = selectedCard.src.replace(".png", "");
     cardToBoard.src = selectedCard.src;
     cardToBoard.className = selectedCard.className;
+
+    // add event listener "selectToConfirm"
     
     const myDisplay = document.getElementById("right-display-board");
     const oppDisplay = document.getElementById("left-display-board");
@@ -223,6 +241,9 @@ function takeCardFromTheMiddleStack(){
             // move the selectedCard to my display board
             // let cardToBoard = selectedCard.cloneNode(true);
             myDisplay.appendChild(cardToBoard);
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
             myAtkCardsCounter += 1;
             updateCardStack();
         }
@@ -230,6 +251,9 @@ function takeCardFromTheMiddleStack(){
             // move the selectedCard to friend's display board
             // let cardToBoard = selectedCard.cloneNode(true);
             oppDisplay.appendChild(cardToBoard);
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
             friendAtkCardsCounter += 1;
             updateCardStack();
         }
@@ -264,141 +288,213 @@ function takeCardFromTheMiddleStack(){
 //makes sure that after the chosen cards are in the display boards, that they can't be changed/swapped out
 //also hides the original cards to make it look like they moved from og pos to display board
 function selectMyCard(cardId){
-    // gets the selected card (using the parameter cardID!)
-    const selectedCard = document.getElementById(cardId);
+    if (turn == "me"){
+        // gets the selected card (using the parameter cardID!)
+        const selectedCard = document.getElementById(cardId);
 
-    // gets the display board where the card should be moved into
-    const myDisplay = document.getElementById("right-display-board");
+        // gets the display board where the card should be moved into
+        const myDisplay = document.getElementById("right-display-board");
 
-    /* 
-        ensures that the selected/clicked card is not on the board
-        if the card you selected/clicked is not on the board then it should be moved to the board
-        otherwise, nothing should happen on the card as it is already on the board!
-    */
-    if (!myDisplay.contains(selectedCard)){
-        // checks if the card seleted is a character card
-        if (selectedCard.src.includes("char")){
-            if (myCharCardsCounter == maxCharCards){
-                alert('cannot be replaced!!');
-                Break;
+        /* 
+            ensures that the selected/clicked card is not on the board
+            if the card you selected/clicked is not on the board then it should be moved to the board
+            otherwise, nothing should happen on the card as it is already on the board!
+        */
+        if (!myDisplay.contains(selectedCard)){
+            // checks if the card seleted is a character card
+            if (selectedCard.src.includes("char")){
+                if (myCharCardsCounter == maxCharCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    myCharCardsCounter += 1;
+                }
             }
-            else{
-                myCharCardsCounter += 1;
+            // checks if the card seleted is a buffer card
+            else if(selectedCard.src.includes("buffer")){
+                if (myBuffCardsCounter == maxBufferCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    myBuffCardsCounter += 1;
+                }
             }
+            // checks if the card seleted is a attack card
+            else if (selectedCard.src.includes("atk")){
+                if (myAtkCardsCounter == maxAtkCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    myAtkCardsCounter += 1;
+                }
+            }
+
+            // move the selectedCard to my display board
+            let cardToBoard = selectedCard.cloneNode(true);
+            myDisplay.appendChild(cardToBoard);
+        
+            cardToBoard.removeAttribute('onclick');
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
+
+            selectedCard.style.visibility = 'hidden';
         }
-        // checks if the card seleted is a buffer card
-        else if(selectedCard.src.includes("buffer")){
-            if (myBuffCardsCounter == maxBufferCards){
-                alert('cannot be replaced!!');
-                Break;
-            }
-            else{
-                myBuffCardsCounter += 1;
-            }
+        else{
+            // give a notification that warns the user
+            // that the card, which is already placed on the board, cannot be removed or replaced
+            alert("cannot be replaced!!");
         }
-        // checks if the card seleted is a attack card
-        else if (selectedCard.src.includes("atk")){
-            if (myAtkCardsCounter == maxAtkCards){
-                alert('cannot be replaced!!');
-                Break;
-            }
-            else{
-                myAtkCardsCounter += 1;
-            }
-        }
-
-        // move the selectedCard to my display board
-        let cardToBoard = selectedCard.cloneNode(true);
-        myDisplay.appendChild(cardToBoard);
-    
-        cardToBoard.removeAttribute('onclick');
-        cardToBoard.addEventListener('click', function(){
-            attack(cardToBoard.id);
-        });
-
-        selectedCard.style.visibility = 'hidden';
     }
     else{
-        // give a notification that warns the user
-        // that the card, which is already placed on the board, cannot be removed or replaced
-        alert("cannot be replaced!!");
+        alert("It is not your turn")
     }
+    if (myCharCardsCounter == maxCharCards && myBuffCardsCounter == maxBufferCards && myAtkCardsCounter == maxAtkCards){
+        turn = "friend"
+    }
+    document
+    .getElementById("notification")
+    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + "Turn: " + turn;
 }
 
 //for friend
 //makes sure that after the chosen cards are in the display boards, that they can't be changed/swapped out
 //also hides the original cards to make it look like they moved from og pos to display board
 function selectFriendCard(cardId){
-    const selectedCard = document.getElementById(cardId);
-    const oppDisplay = document.getElementById("left-display-board")
+    if (turn == "friend"){
+        const selectedCard = document.getElementById(cardId);
+        const oppDisplay = document.getElementById("left-display-board")
 
-    if (!oppDisplay.contains(selectedCard)){
-        // checks if the card seleted is a character card
-        if (selectedCard.src.includes("char")){
-            if (friendCharCardsCounter == maxCharCards){
-                alert('cannot be replaced!!');
-                Break;
+        if (!oppDisplay.contains(selectedCard)){
+            // checks if the card seleted is a character card
+            if (selectedCard.src.includes("char")){
+                if (friendCharCardsCounter == maxCharCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    friendCharCardsCounter += 1;
+                }
             }
-            else{
-                friendCharCardsCounter += 1;
+            // checks if the card seleted is a buffer card
+            else if(selectedCard.src.includes("buffer")){
+                if (friendBuffCardsCounter == maxBufferCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    friendBuffCardsCounter += 1;
+                }
             }
+            // checks if the card seleted is a attack card
+            else if (selectedCard.src.includes("atk")){
+                if (friendAtkCardsCounter == maxAtkCards){
+                    alert('cannot be replaced!!');
+                    Break;
+                }
+                else{
+                    friendAtkCardsCounter += 1;
+                }
+            }
+
+            // move the selectedCard to my display board
+            // let cardToBoard = selectedCard.cloneNode(true);
+
+            let cardToBoard = selectedCard.cloneNode(true);
+            oppDisplay.appendChild(cardToBoard);
+
+            cardToBoard.removeAttribute('onclick');
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
+        
+            selectedCard.style.visibility = 'hidden';
         }
-        // checks if the card seleted is a buffer card
-        else if(selectedCard.src.includes("buffer")){
-            if (friendBuffCardsCounter == maxBufferCards){
-                alert('cannot be replaced!!');
-                Break;
-            }
-            else{
-                friendBuffCardsCounter += 1;
-            }
+        else{
+            // give a notification that warns the user
+            // that the card, which is already placed on the board, cannot be removed or replaced
+            alert("cannot be replaced!!");
         }
-        // checks if the card seleted is a attack card
-        else if (selectedCard.src.includes("atk")){
-            if (friendAtkCardsCounter == maxAtkCards){
-                alert('cannot be replaced!!');
-                Break;
-            }
-            else{
-                friendAtkCardsCounter += 1;
-            }
-        }
-
-        // move the selectedCard to my display board
-        // let cardToBoard = selectedCard.cloneNode(true);
-
-        let cardToBoard = selectedCard.cloneNode(true);
-        oppDisplay.appendChild(cardToBoard);
-
-        cardToBoard.removeAttribute('onclick');
-        cardToBoard.addEventListener('click', function(){
-            attack(cardToBoard.id);
-        });
-    
-        selectedCard.style.visibility = 'hidden';
     }
     else{
-        // give a notification that warns the user
-        // that the card, which is already placed on the board, cannot be removed or replaced
-        alert("cannot be replaced!!");
+        alert("It is not friend's turn")
     }
+    if (friendCharCardsCounter == maxCharCards && friendBuffCardsCounter == maxBufferCards && friendAtkCardsCounter == maxAtkCards){
+        turn = "me"
+    }
+    document
+    .getElementById("notification")
+    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + "Turn: " + turn;
 }
 
 // activated when click the card on the display board!
-function attack(cardId){
+function selectToConfirm(cardId){
+    // check where this selectToConfirm() is being activated from i.e. from right display board of left display board
     const selectedCard = document.getElementById(cardId);
-    let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''))
+    if (document.getElementById("right-display-board").contains(selectedCard) && turn == "me"){
+        // ok
+        let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''))
 
-    //shows what cards have been selected and prints out a message
-    document
-    .getElementById("board")
-    .innerHTML = "Selected card: " + cardSrc;
+        cardSrcPNG = cardSrc + ".png";
+        console.log(cardSrcPNG);
+
+        if (character_cards.includes(cardSrcPNG)){
+            cardsToConfirm["character"] = cardSrc
+        }
+        else if (buffer_cards.includes(cardSrcPNG)){ 
+            cardsToConfirm["buffer"] = cardSrc
+        }
+        else if (middle_cards.includes(cardSrcPNG)){
+            cardsToConfirm["middle"] = cardSrc
+        }
+
+        //shows what cards have been selected and prints out a message
+        document
+        .getElementById("board")
+        .innerHTML = "Selected cards: " + cardsToConfirm["character"] + ", " + cardsToConfirm["buffer"] + ", " + cardsToConfirm["middle"];
+    }
+    else if (document.getElementById("left-display-board").contains(selectedCard) && turn == "friend"){
+        // ok
+        let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''))
+
+        cardSrcPNG = cardSrc + ".png";
+        console.log(cardSrcPNG);
+
+        if (character_cards.includes(cardSrcPNG)){
+            cardsToConfirm["character"] = cardSrc
+        }
+        else if (buffer_cards.includes(cardSrcPNG)){ 
+            cardsToConfirm["buffer"] = cardSrc
+        }
+        else if (middle_cards.includes(cardSrcPNG)){
+            cardsToConfirm["middle"] = cardSrc
+        }
+
+        //shows what cards have been selected and prints out a message
+        document
+        .getElementById("board")
+        .innerHTML = "Selected cards: " + cardsToConfirm["character"] + ", " + cardsToConfirm["buffer"] + ", " + cardsToConfirm["middle"];
+    }
+    else{
+        // invalid action: you cannot select cards on the wrong display board!
+        alert("invalid action: you cannot select cards on the wrong display board!")
+    }
+
+    
 
     // get the property of the selected card
     // 1. handle differently based on the "sp"(speed) of the card e.g. if the sp is 5/10/20... etc.
 
     // if the card you selected is **not** character card, then it would not have "sp" property (it just does not make any sense!)
     // we need an if statement that first checks if the card we're looking at is character card or not!
+} 
+
+// when we confirm our selections, the program needs to hold the information about our selections
+// i.e. holding the char card, buffer card, sp atk selected
+function confirm(){
     if (cardSrc in char_cards_properties){
         if (char_cards_propertie[cardSrc][sp] == 5){
             //5 spd = the character can only:
@@ -420,8 +516,4 @@ function attack(cardId){
         // you might leave this empty if you don't have any idea of what to do with it
         // otherwise, you'll have some ideas?
     }
-} 
-     
-function confirm(){
-    
 }
