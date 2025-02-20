@@ -494,11 +494,20 @@ function selectToConfirm(cardId){
 
 // when we confirm our selections, the program needs to hold the information about our selections
 // i.e. holding the char card, buffer card, sp atk selected
+
+// we might have to pass the parameter for the confirm() regardin whose turn it is
+// but don't worry about this for now, just leave it - we'll look at this later (just leaving a note here for a reminder)
 function confirm(){
     if (cardSrc in char_cards_properties){
         if (char_cards_propertie[cardSrc][sp] == 5){
             //5 spd = the character can only:
-            //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal 
+            //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal
+            
+            // turn = "" to someone else
+            // for ex. if turn was me then this should be friend (vice versa.)
+            //  
+
+            // calculation about s
         }
         else if (char_cards_properties[cardSrc][sp] == 10){
             //10 spd = the character can only do:  
