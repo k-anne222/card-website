@@ -500,6 +500,7 @@ function selectToConfirm(cardId){
 function confirm(){
     if (cardSrc in char_cards_properties){
         if (char_cards_propertie[cardSrc][sp] == 5){
+            
             //5 spd = the character can only:
             //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal
             
@@ -510,6 +511,9 @@ function confirm(){
             // calculation about s
         }
         else if (char_cards_properties[cardSrc][sp] == 10){
+            if (buffer_cards in selectedCard){
+                alert('character speed is only 10, you are unable to use a buffer card')
+            }
             //10 spd = the character can only do:  
             //a. Char A attack 1x but with no buffer card
         }
@@ -518,6 +522,16 @@ function confirm(){
             //a. Char A attack 2x but both with no buffer cards
             //b. Char A attack 1x with buffer card 
             //c. Char A attack 1x & Char B attack 1x 
+
+            if (buffer_cards in selectedCard){
+                innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
+                turn = null;
+            }
+
+            else if (buffer_cards in selectedCard){
+                innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
+                turn = null;
+            }
         }
     }
     else{
