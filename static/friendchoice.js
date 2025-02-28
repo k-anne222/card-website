@@ -120,9 +120,6 @@ var friendDice = 0;
 var myScore = 0;
 var friendScore = 0;
 
-var myScore = 0;
-var friendScore = 0;
-
 var cardsToConfirm = {
     "character": "",
     "buffer": "",
@@ -310,6 +307,8 @@ function selectMyCard(cardId){
                 else{
                     myCharCardsCounter += 1;
                 }
+                // console.log("myCharCardsCounter = ", myCharCardsCounter)
+                // console.log("maxCharCards = ", maxCharCards)
             }
             // checks if the card seleted is a buffer card
             else if(selectedCard.src.includes("buffer")){
@@ -320,6 +319,8 @@ function selectMyCard(cardId){
                 else{
                     myBuffCardsCounter += 1;
                 }
+                // console.log("myBuffCardsCounter = ", myBuffCardsCounter)
+                // console.log("maxBufferCards = ", maxBufferCards)        
             }
             // checks if the card seleted is a attack card
             else if (selectedCard.src.includes("atk")){
@@ -331,16 +332,16 @@ function selectMyCard(cardId){
                     myAtkCardsCounter += 1;
                 }
             }
-
+            
             // move the selectedCard to my display board
             let cardToBoard = selectedCard.cloneNode(true);
             myDisplay.appendChild(cardToBoard);
-        
+            
             cardToBoard.removeAttribute('onclick');
             cardToBoard.addEventListener('click', function(){
                 selectToConfirm(cardToBoard.id);
             });
-
+            
             selectedCard.style.visibility = 'hidden';
         }
         else{
@@ -348,16 +349,19 @@ function selectMyCard(cardId){
             // that the card, which is already placed on the board, cannot be removed or replaced
             alert("cannot be replaced!!");
         }
+        
+        if (myCharCardsCounter == maxCharCards && myBuffCardsCounter == maxBufferCards && myAtkCardsCounter == maxAtkCards){
+            turn = "friend";
+        }
+        document
+        .getElementById("notification")
+        .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + " | Turn: " + turn;
     }
     else{
         alert("It is not your turn")
     }
-    if (myCharCardsCounter == maxCharCards && myBuffCardsCounter == maxBufferCards && myAtkCardsCounter == maxAtkCards){
-        turn = "friend"
-    }
-    document
-    .getElementById("notification")
-    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + "Turn: " + turn;
+    // console.log("myAtkCardsCounter = ", myAtkCardsCounter)
+    // console.log("maxAtkCards = ", maxAtkCards)        
 }
 
 //for friend
@@ -418,16 +422,16 @@ function selectFriendCard(cardId){
             // that the card, which is already placed on the board, cannot be removed or replaced
             alert("cannot be replaced!!");
         }
+        if (friendCharCardsCounter == maxCharCards && friendBuffCardsCounter == maxBufferCards && friendAtkCardsCounter == maxAtkCards){
+            turn = "me"
+        }
+        document
+        .getElementById("notification")
+        .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + " | Turn: " + turn;
     }
     else{
         alert("It is not friend's turn")
     }
-    if (friendCharCardsCounter == maxCharCards && friendBuffCardsCounter == maxBufferCards && friendAtkCardsCounter == maxAtkCards){
-        turn = "me"
-    }
-    document
-    .getElementById("notification")
-    .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + "Turn: " + turn;
 }
 
 // activated when click the card on the display board!
@@ -498,45 +502,92 @@ function selectToConfirm(cardId){
 // we might have to pass the parameter for the confirm() regarding whose turn it is
 // but don't worry about this for now, just leave it - we'll look at this later (just leaving a note here for a reminder)
 function confirm(){
-    if (cardSrc in char_cards_properties){
-        if (char_cards_propertie[cardSrc][sp] == 5){
-            
-            //5 spd = the character can only:
-            //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal
-            
-            // turn = "" to someone else
-            // for ex. if turn was me then this should be friend (vice versa.)
-            //  
+    // let cardSrc = ""
+    // var cardSrc = "" (2) define what cardSrc is (i.e. define the variable "cardSrc")
 
-            // calculation about s
-        }
-        else if (char_cards_properties[cardSrc][sp] == 10){
-            if (buffer_cards in selectedCard){
-                alert('character speed is only 10, you are unable to use a buffer card')
+    // cardsToConfirm["character"] -> "char GOAT", "char frog" ... etc.
+    // this does the same job as cardSrc
+
+    let myDisplay = document.getElementById("right-display-board");
+    let oppDisplay = document.getElementById("left-display-board");
+
+    if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 5){
+            
+        //5 spd = the character can only:
+        //Skip at the first time (beginning) and then attack 1x after being attacked. then proceed as normal
+
+        // once you use the spd = 5 card, the card is expired
+        // character (sp = 5) -> stays on the display board (only leaves when the HP becomes 0)
+        // buffer -> disappear from the display board
+        // middle -> disappear from the display board
+        if (turn == "me"){
+            var cards = myDisplay.getElementsByTagName('img');
+            for (var i = 0; i < cards.length; i++){
+                if (cards[i].src == cardsToConfirm["buffer"]){
+                    // cards[i].remove()
+                    // Break;
+                }
             }
+
+            for (var i = 0; i < cards.length; i++){
+                if (cards[i].src == cardsToConfirm["middle"]){
+                    // cards[i].remove()
+                    // Break;
+                }
+            }
+            
+            turn = "friend";
+        }
+        else{
+            var cards = oppDisplay.getElementsByTagName('img');
+
+            for (var i = 0; i < cards.length; i++){
+                if (cards[i].src == cardsToConfirm["buffer"]){
+                    // cards[i].remove()
+                    // Break;
+                }
+            }
+
+            for (var i = 0; i < cards.length; i++){
+                if (cards[i].src == cardsToConfirm["middle"]){
+                    // cards[i].remove()
+                    // Break;
+                }
+            }
+
+            turn = "me";
+        }
+
+        document
+        .getElementById("notification")
+        .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + " | Turn: " + turn;
+    }
+    else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 10){
+        // if (buffer_cards in selectedCard){
+        //         alert('character speed is only 10, you are unable to use a buffer card')
+        // }
             //10 spd = the character can only do:  
             //a. Char A attack 1x but with no buffer card
-        }
-        else if (char_cards_properties[cardSrc][sp] == 20){
+    }
+    else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 20){
             //20 spd = the character can do either: 
             //a. Char A attack 2x but both with no buffer cards
             //b. Char A attack 1x with buffer card 
             //c. Char A attack 1x & Char B attack 1x 
 
-            if (buffer_cards in selectedCard){
-                innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
-                turn = null;
-            }
+        // if (buffer_cards in selectedCard){
+        //         innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
+        //         turn = null;
+        // }
 
-            else if (buffer_cards in selectedCard){
-                innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
-                turn = null;
-            }
-        }
+        // else if (buffer_cards in selectedCard){
+        //         innerHTML = selectedCard + "selected with" + selectedCard[buffer_cards]
+        //         turn = null;
+        // }
     }
-    else{
+}
+    // else{
         // the card you're looking at is either 1. buffer card 2. middle card
         // you might leave this empty if you don't have any idea of what to do with it
         // otherwise, you'll have some ideas?
-    }
-}
+    // }
