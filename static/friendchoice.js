@@ -495,7 +495,7 @@ function selectToConfirm(cardId){
 // when we confirm our selections, the program needs to hold the information about our selections
 // i.e. holding the char card, buffer card, sp atk selected
 
-// we might have to pass the parameter for the confirm() regardin whose turn it is
+// we might have to pass the parameter for the confirm() regarding whose turn it is
 // but don't worry about this for now, just leave it - we'll look at this later (just leaving a note here for a reminder)
 function confirm(){
     if (cardSrc in char_cards_properties){
