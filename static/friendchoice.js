@@ -233,24 +233,38 @@ function takeCardFromTheMiddleStack(){
     
     // if the roll number of friend is bigger
     // then the takeCard function must place the card to the friend's side
-    if(myDice > friendDice){
+    if(turn == "me"){
         if(myAtkCardsCounter < maxAtkCards){
             // move the selectedCard to my display board
-            // let cardToBoard = selectedCard.cloneNode(true);
+            let cardToBoard = selectedCard.cloneNode(true);
             myDisplay.appendChild(cardToBoard);
+
+            cardToBoard.id += "-right"
+            
+            cardToBoard.removeAttribute('onclick');
             cardToBoard.addEventListener('click', function(){
                 selectToConfirm(cardToBoard.id);
             });
+            
+            console.log(cardToBoard)
+            
             myAtkCardsCounter += 1;
             updateCardStack();
         }
         else if(friendAtkCardsCounter < maxAtkCards){
             // move the selectedCard to friend's display board
-            // let cardToBoard = selectedCard.cloneNode(true);
+            let cardToBoard = selectedCard.cloneNode(true);
             oppDisplay.appendChild(cardToBoard);
+
+            cardToBoard.id += "-left"
+            
+            cardToBoard.removeAttribute('onclick');
             cardToBoard.addEventListener('click', function(){
                 selectToConfirm(cardToBoard.id);
             });
+            
+            console.log(cardToBoard)
+            
             friendAtkCardsCounter += 1;
             updateCardStack();
         }
@@ -263,15 +277,36 @@ function takeCardFromTheMiddleStack(){
     else{
         if(friendAtkCardsCounter < maxAtkCards){
             // move the selectedCard to friend's display board
-            // let cardToBoard = selectedCard.cloneNode(true);
+            let cardToBoard = selectedCard.cloneNode(true);
             oppDisplay.appendChild(cardToBoard);
+
+            cardToBoard.id += "-left"
+
+            cardToBoard.removeAttribute('onclick');
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
+            
+            console.log(cardToBoard)
+
             friendAtkCardsCounter += 1;
             updateCardStack();
+
         }
         else if(myAtkCardsCounter < maxAtkCards){
             // move the selectedCard to my display board
-            // let cardToBoard = selectedCard.cloneNode(true);
+            let cardToBoard = selectedCard.cloneNode(true);
             myDisplay.appendChild(cardToBoard);
+
+            cardToBoard.id += "-right"
+            
+            cardToBoard.removeAttribute('onclick');
+            cardToBoard.addEventListener('click', function(){
+                selectToConfirm(cardToBoard.id);
+            });
+
+            console.log(cardToBoard)
+
             myAtkCardsCounter += 1;
             updateCardStack();
         }
@@ -484,6 +519,13 @@ function selectToConfirm(cardId){
     }
     else{
         // invalid action: you cannot select cards on the wrong display board!
+        if (document.getElementById("right-display-board").contains(selectedCard)){
+            console.log("right contains")
+        }
+        if (document.getElementById("left-display-board").contains(selectedCard)){
+            console.log("left contains")
+        }
+        console.log("the turn is: ", turn)
         alert("invalid action: you cannot select cards on the wrong display board!")
     }
 
@@ -522,17 +564,22 @@ function confirm(){
         // middle -> disappear from the display board
         if (turn == "me"){
             var cards = myDisplay.getElementsByTagName('img');
+            console.log(cards)
             for (var i = 0; i < cards.length; i++){
+                console.log(cards[i].attributes)
                 if (cards[i].src == cardsToConfirm["buffer"]){
-                    // cards[i].remove()
-                    // Break;
+                    // cards[i].remove();
+                    delete cards[i];
+                    Break;
                 }
             }
 
             for (var i = 0; i < cards.length; i++){
+                console.log(cards[i].attributes)
                 if (cards[i].src == cardsToConfirm["middle"]){
-                    // cards[i].remove()
-                    // Break;
+                    // cards[i].remove();
+                    delete cards[i];
+                    Break;
                 }
             }
             
@@ -540,18 +587,22 @@ function confirm(){
         }
         else{
             var cards = oppDisplay.getElementsByTagName('img');
-
+            console.log(cards)
             for (var i = 0; i < cards.length; i++){
+                console.log(cards[i].attributes)
                 if (cards[i].src == cardsToConfirm["buffer"]){
-                    // cards[i].remove()
-                    // Break;
+                    // cards[i].remove();
+                    delete cards[i];
+                    Break;
                 }
             }
 
             for (var i = 0; i < cards.length; i++){
+                console.log(cards[i].attributes)
                 if (cards[i].src == cardsToConfirm["middle"]){
-                    // cards[i].remove()
-                    // Break;
+                    // cards[i].remove();
+                    delete cards[i];
+                    Break;
                 }
             }
 
