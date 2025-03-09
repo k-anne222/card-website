@@ -123,7 +123,8 @@ var friendScore = 0;
 var cardsToConfirm = {
     "character": "",
     "buffer": "",
-    "middle": ""
+    "middle": "",
+    "target": ""
 }
 
 var turn = null;
@@ -461,31 +462,43 @@ function updateSelectedCardsRecord(selectedCard){
 
 // activated when the card (on the display board) is clicked to be selected
 function selectToConfirm(cardId){    
-    // const selectedCard = document.getElementById(cardId);
     const selectedCard = event.target; // get the clicked card directly
-    /*
-    console.log("Checking selection for:", selectedCard.id);
-    console.log("Parent of selectedCard:", selectedCard.parentNode); 
-    */
 
-    if (document.getElementById("right-display-board").contains(selectedCard) && turn == "me"){
-        updateSelectedCardsRecord(selectedCard)
-    }
-    else if (document.getElementById("left-display-board").contains(selectedCard) && turn == "friend"){
-        updateSelectedCardsRecord(selectedCard)
+    if(turn == "me"){
+        if (document.getElementById("left-display-board").contains(selectedCard)){
+            // that selected "character" card is the target to attack
+            let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''));
+            cardSrcPNG = cardSrc + ".png";
+
+            // check if the selected card is a character card
+            if (character_cards.includes(cardSrcPNG)){
+                cardsToConfirm["target"] = cardSrc
+            }
+            else{
+                alert("Choose a character card for your target")
+            }
+        }
+        else if (document.getElementById("right-display-board").contains(selectedCard)){
+            updateSelectedCardsRecord(selectedCard)
+        }
     }
     else{
-        // invalid action: you cannot select cards on the wrong display board!
-        /*
         if (document.getElementById("right-display-board").contains(selectedCard)){
-            console.log("right contains")
+            // that selected "character" card is the target to attack
+            let cardSrc = decodeURIComponent(selectedCard.src.split(/[/\\]/).pop().replace('.png', ''));
+
+            cardSrcPNG = cardSrc + ".png";
+
+            if (character_cards.includes(cardSrcPNG)){
+                cardsToConfirm["target"] = cardSrc
+            }
+            else{
+                alert("Choose a character card for your target")
+            }
         }
-        if (document.getElementById("left-display-board").contains(selectedCard)){
-            console.log("left contains")
+        else if (document.getElementById("left-display-board").contains(selectedCard) && turn == "friend"){
+                updateSelectedCardsRecord(selectedCard)
         }
-        */
-        console.log("the turn is: ", turn);
-        alert("invalid action: you cannot select cards on the wrong display board!")
     }
 } 
 
@@ -510,9 +523,6 @@ function confirm(){
             var cards = myDisplay.getElementsByTagName('img');
             for (var i = 0; i < cards.length; i++){
                 let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
-                
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[buffer] ", cardsToConfirm["buffer"])
 
                 if (cardSrc == cardsToConfirm["buffer"]){
                     cards[i].remove();
@@ -523,8 +533,6 @@ function confirm(){
             for (var i = 0; i < cards.length; i++){
                 let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
 
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[middle] ", cardsToConfirm["middle"])
                 if (cardSrc == cardsToConfirm["middle"]){
                     cards[i].remove();
                     myAtkCardsCounter -= 1;
@@ -539,8 +547,6 @@ function confirm(){
             for (var i = 0; i < cards.length; i++){
                 let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
 
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[buffer] ", cardsToConfirm["buffer"])
                 if (cardSrc == cardsToConfirm["buffer"]){
                     cards[i].remove();
                     friendBuffCardsCounter -= 1;
@@ -550,8 +556,6 @@ function confirm(){
             for (var i = 0; i < cards.length; i++){
                 let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
 
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[middle] ", cardsToConfirm["middle"])
                 if (cardSrc == cardsToConfirm["middle"]){
                     cards[i].remove();
                     friendAtkCardsCounter -= 1;
@@ -566,48 +570,95 @@ function confirm(){
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 10){
         //10 spd = the character can only do:  
         //a. Char A attack 1x but with no buffer card
+        if (cardsToConfirm["buffer"] != ""){
+            alert('character speed is only 10, you are unable to use a buffer card')
+            cardsToConfirm["buffer"] = ""
+        }
         if (turn == "me"){
-            var cards = myDisplay.getElementsByTagName('img');
-            for (var i = 0; i < cards.length; i++){
+            var myCards = myDisplay.getElementsByTagName('img');
+            for (var i = 0; i < myCards.length; i++){
             
-                let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
                 
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[middle] ", cardsToConfirm["middle"])
                 if (cardSrc == cardsToConfirm["middle"]){
-                    cards[i].remove();
+                    // get atk stat of my character card
+                    var myAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
+                    // get hp stat of opponent's character card
+                    // and reduce the hp to (hp-atk)
+                    char_cards_properties[cardsToConfirm["target"]]["hp"] -= myAtkStat
+                    
+                    myCards[i].remove(); 
                     myAtkCardsCounter -= 1;
-
-                    takeCardFromTheMiddleStack()
                 }
             }
-            
-            if (cardSrc == cardsToConfirm["buffer"]){
-                alert('character speed is only 10, you are unable to use a buffer card')
-            }
+
+            if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
+                // update score record
+                myScore += 1
+
+                // display the updated score record
+                document.getElementById("myScore").innerHTML = "Score: " + myScore
+
+                // remove the target card defeated
+                var oppCards = oppDisplay.getElementsByTagName('img');
+                for (var i = 0; i < oppCards.length; i++){
+                    
+                    let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                    
+                    if (cardSrc == cardsToConfirm["target"]){
+                        oppCards[i].remove();
+                        friendAtkCardsCounter -= 1;
+                    }
+                }  
+            }  
         }
+
+
+        // should have a counter somehwere of how many opp cards and how many my cards are 0
+        //i meant like how many cards hp reaching 0 counter
+        // counter for deadOppCard / deadMyCard
+        // if opp cards hp reach 0, myscore += 1
+        // if my cards hp reach 0, oppscore += 1
+        // when one of the players' score = 5 wins
+
         else{
-            var cards = oppDisplay.getElementsByTagName('img');
-
-            for (var i = 0; i < cards.length; i++){
-                let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+            var oppCards = oppDisplay.getElementsByTagName('img');
+            for (var i = 0; i < oppCards.length; i++){
+            
+                let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
                 
-                console.log("cardSrc: ", cardSrc)
-                console.log("cardsToConfirm[middle] ", cardsToConfirm["middle"])
                 if (cardSrc == cardsToConfirm["middle"]){
-                    cards[i].remove();
-                    myAtkCardsCounter -= 1;
-
-                    takeCardFromTheMiddleStack()
+                    // get atk stat of my character card
+                    var oppAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
+                    // get hp stat of opponent's character card
+                    // and reduce the hp to (hp-atk)
+                    char_cards_properties[cardsToConfirm["target"]]["hp"] -= oppAtkStat
+                    
+                    oppCards[i].remove(); 
+                    friendAtkCardsCounter -= 1;
                 }
             }
-            
-            if (cardSrc == cardsToConfirm["buffer"]){
-                alert('character speed is only 10, you are unable to use a buffer card')
-            }
-        }
 
-        
+            if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
+                // update score record
+                friendScore += 1
+
+                // display the updated score record
+                document.getElementById("friendScore").innerHTML = "Score: " + friendScore
+
+                // remove the target card defeated
+                var myCards = myDisplay.getElementsByTagName('img');
+                for (var i = 0; i < myCards.length; i++){
+                    
+                    let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                    
+                    if (cardSrc == cardsToConfirm["target"]){
+                        myCards[i].remove();
+                        myAtkCardsCounter -= 1;
+                    }
+                }
+            }
+        } 
     }
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 20){
             //20 spd = the character can do either: 
