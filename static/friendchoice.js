@@ -713,6 +713,32 @@ function confirm(){
 
             if (cardsToConfirm["buffer"] == ""){
                 // case A and C - middle, char (ensure contains no buffer)
+                for (var i = 0; i < myCards.length; i++){
+                    let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+
+                    var characters_inuse = []
+                    var selectCounter = 0
+
+                    for (var i = 0; i < characters_inuse.length; i++){
+                        characters_inuse.append(selectedCard)
+                        selectCounter += 1
+
+                        if (selectCounter == 2) {
+                            var myAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
+
+                            char_cards_properties[cardsToConfirm["target"]]["hp"] -= myAtkStat
+
+                            myCards[i].remove(); 
+                            myAtkCardsCounter -= 1;
+                        }
+                        else{
+                            alert("select one more")
+                        }
+                    }
+                    
+                        
+                    
+                }
             }
             else{
                 // case B - middle, buffer, char
@@ -775,7 +801,35 @@ function confirm(){
             }
         }
         else{
-            // if turn = "friend"
+            if (turn="friend"){
+                if (cardSrc == cardsToConfirm["buffer"]){
+                    var friendPropertyToBuffer = buffer_map[cardSrc]["property"] 
+                    var friendMultiplierToBuffer = buffer_map[cardSrc]["multiplier"]
+
+                    if (friendPropertyToBuffer == "hp"){
+                        // if you activate "hp" buffer card -> it would do nothing about the attack stat (i.e. the attacking power remains the same)
+                        // but the "hp" of the char card you use for attacking goes up (healing/recover itself)
+                        char_cards_properties[cardsToConfirm["character"]]["hp"] *= friendMultiplierToBuffer
+                        char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendAtkStat
+                    }
+                    // buffering up atk and sp atk values
+                    else{
+                        var friendBufferedStat = char_cards_properties[cardsToConfirm["character"]][friendPropertyToBuffer] * friendMultiplierToBuffer
+                        if (cardsToConfirm["middle"] == friendPropertyToBuffer){
+                            char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendBufferedStat
+                        }
+                        else{
+                            char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendAtkStat
+                        }
+                    }
+                    oppCards[i].remove(); 
+                    friendBuffCardsCounter -= 1;
+                }
+            }   
+
+            turn = "friend"
+            
+            
         }
     }
 }
