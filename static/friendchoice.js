@@ -25,7 +25,7 @@ var char_cards_properties = {
         "sp atk" : 25, 
         "sp" : 20
     }, 
-    "char dagoose" : {
+    "char degoose" : {
         "hp" : 30, 
         "atk" : 0, 
         "sp atk" : 50, 
@@ -540,6 +540,18 @@ function selectToConfirm(cardId){
     }
 } 
 
+function flushCardsToConfirm(){
+    cardsToConfirm["character"] = ""
+    cardsToConfirm["buffer"] = ""
+    cardsToConfirm["middle"] = ""
+    cardsToConfirm["target"] = ""
+    
+    // clear the board 
+    document
+    .getElementById("board")
+    .innerHTML = "Selected cards: " + cardsToConfirm["character"] + ", " + cardsToConfirm["buffer"] + ", " + cardsToConfirm["middle"] + "<br />" + "Target: " + cardsToConfirm["target"];
+}
+
 // when we confirm our selections, the program needs to hold the information about our selections
 // i.e. holding the char card, buffer card, sp atk selected
 
@@ -602,6 +614,7 @@ function confirm(){
             turn = "me";
         }
         updateNotification()
+        flushCardsToConfirm()
     }
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 10){
         //10 spd = the character can only do:  
@@ -644,7 +657,7 @@ function confirm(){
                         
                         if (cardSrc == cardsToConfirm["target"]){
                             oppCards[i].remove();
-                            friendAtkCardsCounter -= 1;
+                            friendCharCardsCounter -= 1;
                         }
                     }  
                 }  
@@ -693,7 +706,7 @@ function confirm(){
                         
                         if (cardSrc == cardsToConfirm["target"]){
                             myCards[i].remove();
-                            myAtkCardsCounter -= 1;
+                            myCharCardsCounter -= 1;
                         }
                     }
                 }
@@ -701,6 +714,7 @@ function confirm(){
             }    
         }
         updateNotification()
+        flushCardsToConfirm()
     }
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 20){
             //20 spd = the character can do either: 
@@ -710,38 +724,24 @@ function confirm(){
 
         if (turn == "me"){
             var myCards = myDisplay.getElementsByTagName('img');
-
+            // case A and C - middle, char (ensure contains no buffer)
             if (cardsToConfirm["buffer"] == ""){
-                // case A and C - middle, char (ensure contains no buffer)
-                for (var i = 0; i < myCards.length; i++){
-                    let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
-
-                    var characters_inuse = []
-                    var selectCounter = 0
-
-                    for (var i = 0; i < characters_inuse.length; i++){
-                        characters_inuse.append(selectedCard)
-                        selectCounter += 1
-
-                        if (selectCounter == 2) {
+                    for (var i = 0; i < myCards.length; i++){
+                        let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                        if (cardSrc == cardsToConfirm["middle"]){
+                            // get atk stat of my character card i.e. "atk" or "sp atk"
                             var myAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
-
+                            // get hp stat of opponent's character card
+                            // and reduce the hp to (hp-atk)
                             char_cards_properties[cardsToConfirm["target"]]["hp"] -= myAtkStat
-
+                            
                             myCards[i].remove(); 
                             myAtkCardsCounter -= 1;
                         }
-                        else{
-                            alert("select one more")
-                        }
-                    }
-                    
-                        
-                    
-                }
+                    } 
             }
+            // case B - middle, buffer, char
             else{
-                // case B - middle, buffer, char
                 for (var i = 0; i < myCards.length; i++){
                     let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
                         
@@ -796,40 +796,114 @@ function confirm(){
                         myCards[i].remove(); 
                         myBuffCardsCounter -= 1;
                     }
-                }   
+                }
                 turn = "friend"
             }
+
+            if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
+                // update score record
+                myScore += 1
+
+                // display the updated score record
+                document.getElementById("myScore").innerHTML = "Score: " + myScore
+
+                // remove the target card defeated
+                var oppCards = oppDisplay.getElementsByTagName('img');
+                for (var i = 0; i < oppCards.length; i++){
+                    
+                    let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                    
+                    if (cardSrc == cardsToConfirm["target"]){
+                        oppCards[i].remove();
+                        friendCharCardsCounter -= 1;
+                    }
+                }  
+            } 
         }
         else{
-            if (turn="friend"){
-                if (cardSrc == cardsToConfirm["buffer"]){
-                    var friendPropertyToBuffer = buffer_map[cardSrc]["property"] 
-                    var friendMultiplierToBuffer = buffer_map[cardSrc]["multiplier"]
-
-                    if (friendPropertyToBuffer == "hp"){
-                        // if you activate "hp" buffer card -> it would do nothing about the attack stat (i.e. the attacking power remains the same)
-                        // but the "hp" of the char card you use for attacking goes up (healing/recover itself)
-                        char_cards_properties[cardsToConfirm["character"]]["hp"] *= friendMultiplierToBuffer
-                        char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendAtkStat
-                    }
-                    // buffering up atk and sp atk values
-                    else{
-                        var friendBufferedStat = char_cards_properties[cardsToConfirm["character"]][friendPropertyToBuffer] * friendMultiplierToBuffer
-                        if (cardsToConfirm["middle"] == friendPropertyToBuffer){
-                            char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendBufferedStat
+            var oppCards = oppDisplay.getElementsByTagName('img');
+            // case A and C - middle, char (ensure contains no buffer)
+            if (cardsToConfirm["buffer"] == ""){
+                for (var i = 0; i < oppCards.length; i++){
+                        let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                        if (cardSrc == cardsToConfirm["middle"]){
+                            // get atk stat of my character card i.e. "atk" or "sp atk"
+                            var friendAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
+                            // get hp stat of opponent's character card
+                            // and reduce the hp to (hp-atk)
+                            char_cards_properties[cardsToConfirm["target"]]["hp"] -= myAtkStat
+                            
+                            oppCards[i].remove(); 
+                            friendAtkCardsCounter -= 1;
                         }
-                        else{
+                } 
+            }
+            // case B - middle, buffer, char
+            else{
+                for (var i = 0; i < oppCards.length; i++){
+                    let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                        
+                    if (cardSrc == cardsToConfirm["middle"]){
+                        // get the card's sp atk/atk stat
+                        // you decide to attack the target with the char's atk or sp atk
+    
+                        // gives the value of "atk" or "sp atk" of the card
+                        var friendAtkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
+    
+                        oppCards[i].remove(); 
+                        friendAtkCardsCounter -= 1;
+                    }
+                }
+                for (var i = 0; i < oppCards.length; i++){
+                    let cardSrc = decodeURIComponent(oppCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                    if (cardSrc == cardsToConfirm["buffer"]){
+                        var friendPropertyToBuffer = buffer_map[cardSrc]["property"] 
+                        var friendMultiplierToBuffer = buffer_map[cardSrc]["multiplier"]
+
+                        if (friendPropertyToBuffer == "hp"){
+                            // if you activate "hp" buffer card -> it would do nothing about the attack stat (i.e. the attacking power remains the same)
+                            // but the "hp" of the char card you use for attacking goes up (healing/recover itself)
+                            char_cards_properties[cardsToConfirm["character"]]["hp"] *= friendMultiplierToBuffer
                             char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendAtkStat
                         }
+                        // buffering up atk and sp atk values
+                        else{
+                            var friendBufferedStat = char_cards_properties[cardsToConfirm["character"]][friendPropertyToBuffer] * friendMultiplierToBuffer
+                            if (cardsToConfirm["middle"] == friendPropertyToBuffer){
+                                char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendBufferedStat
+                            }
+                            else{
+                                char_cards_properties[cardsToConfirm["target"]]["hp"] -= friendAtkStat
+                            }
+                        }
+                        oppCards[i].remove(); 
+                        friendBuffCardsCounter -= 1;
                     }
-                    oppCards[i].remove(); 
-                    friendBuffCardsCounter -= 1;
                 }
-            }   
+                turn = "me" 
+            }
 
-            turn = "friend"
-            
-            
+            if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
+                // update score record
+                friendScore += 1
+
+                // display the updated score record
+                document.getElementById("friendScore").innerHTML = "Score: " + friendScore
+
+                // remove the target card defeated
+                var myCards = myDisplay.getElementsByTagName('img');
+                for (var i = 0; i < myCards.length; i++){
+                    
+                    let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
+                    
+                    if (cardSrc == cardsToConfirm["target"]){
+                        myCards[i].remove();
+                        myCharCardsCounter -= 1;
+                    }
+                }  
+            } 
         }
+        updateNotification()
+        flushCardsToConfirm()
     }
 }
