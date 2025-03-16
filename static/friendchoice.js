@@ -166,6 +166,49 @@ function updateNotification(){
     .innerHTML = "Friend roll " + friendDice + " Your roll " + myDice + " | Turn: " + turn;
 }
 
+function showHP(){
+    document
+    .getElementById("HPboard")
+    .style.visibility = "visible"     
+}
+
+function updateHPDisplay(){
+    // show hp of all the cards in players' display board
+    var myHp = {}
+    var oppHp = {}
+
+    const myDisplay = document.getElementById("right-display-board");
+    var cards = myDisplay.getElementsByTagName('img');
+    
+    for (var i = 0; i < cards.length; i++){
+        let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop());
+
+        // if the card you're looking at is a character card
+        if (character_cards.includes(cardSrc)){
+            cardSrc = cardSrc.replace(".png", "");
+            myHp[cardSrc] = char_cards_properties[cardSrc]["hp"]
+        }
+    }
+    
+    const oppDisplay = document.getElementById("left-display-board");
+    var cards = oppDisplay.getElementsByTagName('img');
+    
+    for (var i = 0; i < cards.length; i++){
+        let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop());
+
+        // if the card you're looking at is a character card
+        if (character_cards.includes(cardSrc)){
+            cardSrc = cardSrc.replace(".png", "");
+            oppHp[cardSrc] = char_cards_properties[cardSrc]["hp"]
+        }
+    }
+
+    document
+    .getElementById("HPboard") 
+    .innerHTML = "My HP: " + myHp + "<br />" + "Friend's HP: " + oppHp
+}
+
+
 //stores two randomly generated integers as myDice and friendDice to determine who goes first and then 
 //writes what each integer is 
 function rollRandomDice(){
@@ -199,10 +242,12 @@ function play(){
         shuffle(buffer_cards);
         shuffle(character_cards);
         
+        
         // random distribution of cards to each player
         let my_cards = document.getElementsByClassName('my-card');
         let friend_cards = document.getElementsByClassName('friend-card');
         let idx = 0;
+
 
         // distribute buffer cards
         for(let i = 0; i < 6; ++i){
@@ -558,7 +603,7 @@ function flushCardsToConfirm(){
 // we might have to pass the parameter for the confirm() regarding whose turn it is
 function confirm(){
     let myDisplay = document.getElementById("right-display-board");
-    let oppDisplay = document.getElementById("left-display-board");    
+    let oppDisplay = document.getElementById("left-display-board");   
 
     if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 5){
             
@@ -613,8 +658,6 @@ function confirm(){
             }
             turn = "me";
         }
-        updateNotification()
-        flushCardsToConfirm()
     }
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 10){
         //10 spd = the character can only do:  
@@ -713,8 +756,6 @@ function confirm(){
                 turn = "me"
             }    
         }
-        updateNotification()
-        flushCardsToConfirm()
     }
     else if (char_cards_properties[cardsToConfirm["character"]]["sp"] == 20){
             //20 spd = the character can do either: 
@@ -903,7 +944,9 @@ function confirm(){
                 }  
             } 
         }
-        updateNotification()
-        flushCardsToConfirm()
     }
+
+    updateNotification()
+    flushCardsToConfirm()
+    updateHPDisplay()
 }
