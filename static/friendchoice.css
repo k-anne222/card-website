@@ -149,23 +149,6 @@ body{
     align-items: center; /* Center the dice images horizontally */
 }
 
-/* .confirmFriendSelection{
-    size: 30%;
-    position:absolute;
-    bottom: 50vh;
-    right: 20vw;
-    padding: 1.5vh 2vw;
-}
-
-
-.confirmMySelection{
-    size: 50%;
-    position:absolute;
-    bottom: 400vh; 
-    right: 100vw;
-} */
-
-
 .setting-button{
     position: absolute;
     /* top: 10px;
@@ -271,4 +254,25 @@ body{
     padding-top: 1vh; /* Adjust padding to fine-tune the positioning */
     padding-bottom: 1vh; /* Adjust padding to fine-tune the positioning */
     align-items: center; /* Center the dice images horizontally */
+}
+
+#alert {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    font-size: 3.5vh; /* Adjust the font size based on viewport height */
+}
+
+#alert p{
+    /* font-size: x-large; */
+    /* font-size: 2.5vh; Adjust the font size based on viewport height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center
 }

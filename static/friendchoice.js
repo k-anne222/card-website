@@ -10,91 +10,91 @@ var char_cards_properties = {
     "char bumblebadger" : {
         "hp" : 35, 
         "atk" : 10, 
-        "sp atk" : 15, 
+        "atk sp" : 15, 
         "sp" : 10
     }, 
     "char cat" : {
         "hp" : 40, 
         "atk" : 10, 
-        "sp atk" : 20, 
+        "atk sp" : 20, 
         "sp" : 10
     }, 
     "char chick" : {
         "hp" : 25, 
         "atk" : 20, 
-        "sp atk" : 25, 
+        "atk sp" : 25, 
         "sp" : 20
     }, 
     "char degoose" : {
         "hp" : 30, 
         "atk" : 0, 
-        "sp atk" : 50, 
+        "atk sp" : 50, 
         "sp" : 10
     }, 
     "char eledrowsy" : {
         "hp" : 40, 
         "atk" : 10, 
-        "sp atk" : 20, 
+        "atk sp" : 20, 
         "sp" : 5
     }, 
     "char frog" : {
         "hp" : 60, 
         "atk" : 10, 
-        "sp atk" : 15, 
+        "atk sp" : 15, 
         "sp" : 10
     }, 
     "char GOAT" : {
         "hp" : 70, 
         "atk" : 50, 
-        "sp atk" : 70, 
+        "atk sp" : 70, 
         "sp" : 10
     }, 
     "char hippowerhouse" : {
         "hp" : 45, 
         "atk" : 50, 
-        "sp atk" : 15, 
+        "atk sp" : 15, 
         "sp" : 10
     }, 
     "char mole" : {
         "hp" : 20, 
         "atk" : 5, 
-        "sp atk" : 20, 
+        "atk sp" : 20, 
         "sp" : 10
     }, 
     "char peaparrot" : {
         "hp" : 50, 
         "atk" : 5, 
-        "sp atk" : 5, 
+        "atk sp" : 5, 
         "sp" : 5
     }, 
     "char pigeon" : {
         "hp" : 60, 
         "atk" : 5, 
-        "sp atk" : 0, 
+        "atk sp" : 0, 
         "sp" : 20
     }, 
     "char platy" : {
         "hp" : 35, 
         "atk" : 15, 
-        "sp atk" : 25, 
+        "atk sp" : 25, 
         "sp" : 5
     }, 
     "char scharecrow" : {
         "hp" : 40, 
         "atk" : 20, 
-        "sp atk" : 20, 
+        "atk sp" : 20, 
         "sp" : 5
     }, 
     "char shark" : {
         "hp" : 20, 
         "atk" : 10, 
-        "sp atk" : 25, 
+        "atk sp" : 25, 
         "sp" : 5
     },
     "char stingray" : {
         "hp" : 35, 
         "atk" : 5, 
-        "sp atk" : 40, 
+        "atk sp" : 40, 
         "sp" : 5
     } 
 }
@@ -174,7 +174,6 @@ function showHP(){
 
 function updateHPDisplay(){
     // show hp of all the cards in players' display board
-    console.log("Activated updateHPDisplay()")
 
     myHPtext = "My HP: "
     oppHPtext = "Friend's HP: "
@@ -209,7 +208,6 @@ function updateHPDisplay(){
     .getElementById("HPboard") 
     .innerHTML = myHPtext + "<br />" + oppHPtext
 }
-
 
 //stores two randomly generated integers as myDice and friendDice to determine who goes first and then 
 //writes what each integer is 
@@ -277,6 +275,19 @@ function play(){
         
         const board = document.getElementById("board");
         board.style.visibility = "visible";
+    }
+}
+
+function gameOver(){
+    if(myScore == 3 || friendScore == 3){
+        if (myScore == 3) {
+            winner = "me"
+        }
+        if (friendScore == 3){
+            winner = "friend"
+        }
+        document.getElementById('alert').style.display = 'block';
+        document.getElementById('gameOver').innerHTML = "The game is over. <br /> The winner is [" + winner + "]. <br /> To start the game again, please reload the page";
     }
 }
 
@@ -548,7 +559,6 @@ function selectToConfirm(cardId){
             // check if the selected card is a character card
             if (character_cards.includes(cardSrcPNG)){
                 cardsToConfirm["target"] = cardSrc
-                console.log("cardsToConfirm[target]: ", cardSrc)
             }
             else{
                 alert("Choose a character card for your target")
@@ -571,7 +581,6 @@ function selectToConfirm(cardId){
 
             if (character_cards.includes(cardSrcPNG)){
                 cardsToConfirm["target"] = cardSrc
-                console.log("cardsToConfirm[target]: ", cardSrc)
 
                 document
                 .getElementById("board")
@@ -604,14 +613,17 @@ function flushCardsToConfirm(){
 
 // we might have to pass the parameter for the confirm() regarding whose turn it is
 
-function sectionSp5(displayBoard, buffCounter, atkCounter){
+function sectionSp5(displayBoard){
     var cards = displayBoard.getElementsByTagName('img');
     for (var i = 0; i < cards.length; i++){
         let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
 
         if (cardSrc == cardsToConfirm["buffer"]){
             cards[i].remove();
-            buffCounter -= 1;
+            if (turn == "me"){
+                myBuffCardsCounter -= 1
+            }
+            else{ friendBuffCardsCounter -= 1}
         }
     }
 
@@ -620,34 +632,42 @@ function sectionSp5(displayBoard, buffCounter, atkCounter){
 
         if (cardSrc == cardsToConfirm["middle"]){
             cards[i].remove();
-            atkCounter -= 1;
+            if (turn == "me"){
+                myAtkCardsCounter -= 1
+            }
+            else{ friendAtkCardsCounter -= 1}
         }
     }
 }
 
-function updateScoreAndDefeatedTarget(defeatedDisplayBoard, defeatedCharCounter, scoreId, scoreToUpdate){
+function updateScoreAndDefeatedTarget(defeatedDisplayBoard, scoreId){
     if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
         // update score record
-        scoreToUpdate += 1
-
-        // display the updated score record
-        document.getElementById(scoreId).innerHTML = "Score: " + scoreToUpdate
+        if (turn == "me"){
+            myScore += 1
+            // display the updated score record
+            document.getElementById(scoreId).innerHTML = "Score: " + myScore
+        }
+        else{ 
+            friendScore += 1
+            document.getElementById(scoreId).innerHTML = "Score: " + friendScore
+        }
 
         // remove the target card defeated
         var cards = defeatedDisplayBoard.getElementsByTagName('img');
         for (var i = 0; i < cards.length; i++){
-                        
             let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
                         
             if (cardSrc == cardsToConfirm["target"]){
                 cards[i].remove();
-                defeatedCharCounter -= 1;
+                if (turn == "me"){friendCharCardsCounter-=1}
+                else{myCharCardsCounter-=1}
             }
         }  
     }   
 }
 
-function sectionSp10(displayBoard, atkCounter){
+function sectionSp10(displayBoard){
     var cards = displayBoard.getElementsByTagName('img');
     for (var i = 0; i < cards.length; i++){
         let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
@@ -660,12 +680,13 @@ function sectionSp10(displayBoard, atkCounter){
             char_cards_properties[cardsToConfirm["target"]]["hp"] -= atkStat
                         
             cards[i].remove(); 
-            atkCounter -= 1;
+            if(turn=="me"){myAtkCardsCounter-=1}
+            else{friendAtkCardsCounter-=1}
         }
     }
 }
 
-function caseAC(cards, atkCounter){
+function caseAC(cards){
     for (var i = 0; i < cards.length; i++){
         let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
         if (cardSrc == cardsToConfirm["middle"]){
@@ -675,13 +696,14 @@ function caseAC(cards, atkCounter){
             // and reduce the hp to (hp-atk)
             char_cards_properties[cardsToConfirm["target"]]["hp"] -= atkStat
                     
-            cards[i].remove(); 
-            atkCounter -= 1;
+            cards[i].remove();
+            if(turn=="me"){myAtkCardsCounter-=1}
+            else{friendAtkCardsCounter-=1}
         }
     } 
 }
 
-function caseB(cards, atkCounter, buffCounter){
+function caseB(cards){
     for (var i = 0; i < cards.length; i++){
         let cardSrc = decodeURIComponent(cards[i].src.split(/[/\\]/).pop().replace('.png', ''));
             
@@ -692,8 +714,9 @@ function caseB(cards, atkCounter, buffCounter){
             // gives the value of "atk" or "sp atk" of the card
             var atkStat = char_cards_properties[cardsToConfirm["character"]][cardSrc]
 
-            cards[i].remove(); 
-            atkCounter -= 1;
+            cards[i].remove();
+            if(turn=="me"){myAtkCardsCounter-=1}
+            else{friendAtkCardsCounter=-1} 
         }
     }
     for (var i = 0; i < cards.length; i++){
@@ -734,7 +757,8 @@ function caseB(cards, atkCounter, buffCounter){
                 }
             }
             cards[i].remove(); 
-            buffCounter -= 1;
+            if(turn=="me"){myBuffCardsCounter-=1}
+            else{friendBuffCardsCounter=-1} 
         }
     }
 }
@@ -753,11 +777,13 @@ function confirm(){
         // buffer -> disappear from the display board
         // middle -> disappear from the display board
         if (turn == "me"){
-            sectionSp5(myDisplay, myBuffCardsCounter, myAtkCardsCounter)
+            sectionSp5(myDisplay)
+            // sectionSp5(myDisplay, myBuffCardsCounter, myAtkCardsCounter)
             turn = "friend";
         }
         else{
-            sectionSp5(oppDisplay, friendBuffCardsCounter, friendAtkCardsCounter)
+            sectionSp5(myDisplay)
+            // sectionSp5(oppDisplay, friendBuffCardsCounter, friendAtkCardsCounter)
             turn = "me";
         }
     }
@@ -770,9 +796,8 @@ function confirm(){
         }
         else{
             if (turn == "me"){
-                sectionSp10(myDisplay, myAtkCardsCounter)
-                updateScoreAndDefeatedTarget(oppDisplay, friendCharCardsCounter, "myScore", myScore)
-
+                sectionSp10(myDisplay)
+                updateScoreAndDefeatedTarget(oppDisplay, "myScore")
                 turn = "friend"
             }
 
@@ -786,9 +811,8 @@ function confirm(){
             */
 
             else{
-                sectionSp10(oppDisplay, friendAtkCardsCounter)
-                updateScoreAndDefeatedTarget(myDisplay, myCharCardsCounter, "friendScore", friendScore)
-
+                sectionSp10(oppDisplay)
+                updateScoreAndDefeatedTarget(myDisplay, "friendScore")
                 turn = "me"
             }    
         }
@@ -803,51 +827,34 @@ function confirm(){
             var myCards = myDisplay.getElementsByTagName('img');
             // case A and C - middle, char (ensure contains no buffer)
             if (cardsToConfirm["buffer"] == ""){
-                caseAC(myCards, myAtkCardsCounter)
+                caseAC(myCards)
             }
             // case B - middle, buffer, char
             else{
-                caseB(myCards, myAtkCardsCounter, myBuffCardsCounter)
+                caseB(myCards)
                 turn = "friend"
             }
 
-            updateScoreAndDefeatedTarget(oppDisplay, friendCharCardsCounter, "myScore", myScore)
+            updateScoreAndDefeatedTarget(oppDisplay,"myScore")
         }
         else{
             var oppCards = oppDisplay.getElementsByTagName('img');
             // case A and C - middle, char (ensure contains no buffer)
             if (cardsToConfirm["buffer"] == ""){
-                caseAC(oppCards, friendAtkCardsCounter)
+                caseAC(oppCards)
             }
             // case B - middle, buffer, char
             else{
-                caseB(oppCards, friendAtkCardsCounter, friendBuffCardsCounter)
+                caseB(oppCards)
                 turn = "me" 
             }
 
-            if(char_cards_properties[cardsToConfirm["target"]]["hp"] <= 0){
-                // update score record
-                friendScore += 1
-
-                // display the updated score record
-                document.getElementById("friendScore").innerHTML = "Score: " + friendScore
-
-                // remove the target card defeated
-                var myCards = myDisplay.getElementsByTagName('img');
-                for (var i = 0; i < myCards.length; i++){
-                    
-                    let cardSrc = decodeURIComponent(myCards[i].src.split(/[/\\]/).pop().replace('.png', ''));
-                    
-                    if (cardSrc == cardsToConfirm["target"]){
-                        myCards[i].remove();
-                        myCharCardsCounter -= 1;
-                    }
-                }  
-            } 
+            updateScoreAndDefeatedTarget(myDisplay, "friendScore")
         }
     }
 
     updateNotification()
     flushCardsToConfirm()
     updateHPDisplay()
+    gameOver()
 }
